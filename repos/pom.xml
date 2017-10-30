@@ -7,10 +7,10 @@
         <version>15-SNAPSHOT</version>
     </parent>
     <artifactId>repos</artifactId>
-    <packaging>jar</packaging>
+    <packaging>war</packaging>
     <name>Manorrock Git Repos</name>
     <build>
-        <finalName>repos</finalName>
+        <finalName>git-repos</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -27,16 +27,9 @@
     </build>
     <dependencies>
         <dependency>
-            <groupId>com.manorrock.httpserver</groupId>
-            <artifactId>httpserver</artifactId>
-            <version>15</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.manorrock.webapp</groupId>
-            <artifactId>webapp</artifactId>
-            <version>12-SNAPSHOT</version>
-            <scope>compile</scope>
+            <groupId>javax</groupId>
+            <artifactId>javaee-web-api</artifactId>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.eclipse.jgit</groupId>

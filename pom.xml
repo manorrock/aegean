@@ -15,12 +15,12 @@
             <dependency>
                 <groupId>javax</groupId>
                 <artifactId>javaee-web-api</artifactId>
-                <version>7.0</version>
+                <version>8.0</version>
             </dependency>
             <dependency>
                 <groupId>org.eclipse.jgit</groupId>
                 <artifactId>org.eclipse.jgit.http.server</artifactId>
-                <version>4.7.0.201704051617-r</version>
+                <version>4.9.0.201710071750-r</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -29,5 +29,7 @@
     </modules>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
 </project>
