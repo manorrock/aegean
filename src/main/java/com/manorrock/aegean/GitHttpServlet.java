@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2002-2017, Manorrock.com. All Rights Reserved.
+ *  Copyright (c) 2002-2020, Manorrock.com. All Rights Reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
  *  modification, are permitted provided that the following conditions are met:
@@ -28,10 +28,7 @@ package com.manorrock.aegean;
 import java.io.File;
 import java.io.IOException;
 import java.util.Enumeration;
-import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
 import javax.servlet.ServletConfig;
