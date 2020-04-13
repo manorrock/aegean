@@ -1,35 +1,53 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="
+            http://maven.apache.org/POM/4.0.0
+            http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.manorrock.git</groupId>
-    <artifactId>project</artifactId>
-    <version>16-SNAPSHOT</version>
-    <packaging>pom</packaging>
-    <name>Manorrock Git Project</name>
+    <groupId>com.manorrock.aegean</groupId>
+    <artifactId>aegean</artifactId>
+    <version>20.5.0-SNAPSHOT</version>
+    <packaging>war</packaging>
+    <name>Manorrock Aegean</name>
     <organization>
         <name>Manorrock.com</name>
         <url>http://www.manorrock.com</url>
     </organization>
-    <dependencyManagement>
+    <build>
+        <finalName>aegean</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>3.1.0</version>
+                <configuration>
+                    <archive>
+                        <addMavenDescriptor>false</addMavenDescriptor>
+                    </archive>
+                    <failOnMissingWebXml>false</failOnMissingWebXml>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
         <dependencies>
+            <dependency>
+                <groupId>org.eclipse.jgit</groupId>
+                <artifactId>org.eclipse.jgit.http.server</artifactId>
+                <version>5.7.0.202003110725-r</version>
+                <scope>compile</scope>
+            </dependency>
             <dependency>
                 <groupId>javax</groupId>
                 <artifactId>javaee-web-api</artifactId>
                 <version>8.0</version>
-            </dependency>
-            <dependency>
-                <groupId>org.eclipse.jgit</groupId>
-                <artifactId>org.eclipse.jgit.http.server</artifactId>
-                <version>4.9.0.201710071750-r</version>
+                <scope>provided</scope>
             </dependency>
         </dependencies>
-    </dependencyManagement>
-    <modules>
-        <module>repos</module>
-    </modules>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.compiler.source>9</maven.compiler.source>
+        <maven.compiler.target>9</maven.compiler.target>
     </properties>
 </project>

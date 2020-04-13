@@ -23,7 +23,7 @@
  *  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  *  POSSIBILITY OF SUCH DAMAGE.
  */
-package com.manorrock.git;
+package com.manorrock.aegean;
 
 import java.io.File;
 import java.io.IOException;
@@ -94,23 +94,10 @@ public class GitHttpServlet extends HttpServlet {
      */
     @Override
     public void init(final ServletConfig config) throws ServletException {
+        rootDirectoryFilename = System.getenv("GIT_REPOS_DIRECTORY");
         if (rootDirectoryFilename == null) {
-            try {
-                InitialContext initialContext = new InitialContext();
-                rootDirectoryFilename = (String) initialContext.lookup("java:comp/env/gitReposDirectory");
-            } catch (NamingException ex) {
-                LOGGER.log(Level.FINE, "Unable to find JNDI context", ex);
-                rootDirectoryFilename = null;
-            }
-        }
-
-        if (rootDirectoryFilename == null || "".equals(rootDirectoryFilename.trim())) {
-            rootDirectoryFilename = System.getenv("GIT_REPOS_DIRECTORY");
-        }
-
-        if (rootDirectoryFilename == null || "".equals(rootDirectoryFilename.trim())) {
             rootDirectoryFilename = System.getProperty("GIT_REPOS_DIRECTORY",
-                    System.getProperty("user.home") + "/.manorrock/git/repos");
+                    System.getProperty("user.home") + "/.manorrock/aegean");
         }
 
         rootDirectory = new File(rootDirectoryFilename);
