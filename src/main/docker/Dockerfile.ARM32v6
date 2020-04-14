@@ -1,0 +1,21 @@
+FROM balenalib/raspberry-pi
+ENV PIRANHA_VERSION=20.4.0
+ENV ZULU_VERSION=zulu11.37.48-ca-jdk11.0.6
+RUN ["cross-build-start"]
+RUN apt-get update && \
+    apt-get upgrade -y && \
+    apt-get install -y curl gzip libfontconfig1 libfreetype6 tar && \
+    cd /usr/local && \
+    curl --insecure -L -O https://cdn.azul.com/zulu-embedded/bin/${ZULU_VERSION}-linux_aarch32hf.tar.gz && \
+    tar xfvz ${ZULU_VERSION}-linux_aarch32hf.tar.gz && \
+    mv ${ZULU_VERSION}-linux_aarch32hf jdk && \
+    rm ${ZULU_VERSION}-linux_aarch32hf.tar.gz && \
+    curl --insecure -L -O https://repo1.maven.org/maven2/cloud/piranha/piranha-micro/${PIRANHA_VERSION}/piranha-micro-${PIRANHA_VERSION}-all.jar && \
+    mkdir -p /usr/local/piranha && \
+    mv piranha-micro-${PIRANHA_VERSION}-all.jar /usr/local/piranha/piranha-micro.jar && \
+    rm -rf /var/lib/apt/lists/*
+ENV PATH=$PATH:/usr/local/jdk/bin
+WORKDIR /usr/local/piranha
+CMD ["java", "-jar", "piranha-micro.jar", "--war", "ROOT.war"]
+COPY target/aegean.war /usr/local/piranha/ROOT.war
+RUN ["cross-build-end"]
