@@ -16,7 +16,7 @@ And replace VERSION with the version you want to use.
 
 ## Verify the server is up and running
 
-To verify the contain is up and running execute the command below:
+To verify the container is up and running execute the command below:
 
 ```
 git clone http://localhost:8080/repos/test.git
