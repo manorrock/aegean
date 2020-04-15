@@ -2,7 +2,7 @@
 
 This project delivers a HTTP-based Git repository server.
 
-## Using the Docker image to deploy server.
+## Deploy the server using Docker
 
 ```
   docker run --rm -d -p 8080:8080 -v $PWD:/root/.manorrock/aegean/repos manorrock/aegean:VERSION
@@ -10,9 +10,11 @@ This project delivers a HTTP-based Git repository server.
 
 And replace VERSION with the version you want to use.
 
-_Note_ in the command line above we have mapped the `/root/.manorrock/aegean/repos`
-to point to the current directory so we can persist the Git repositories outside
-of the container.
+> _Note_ in the command line above we have mapped the `/root/.manorrock/aegean/repos`
+> to point to the current directory so we can persist the Git repositories outside
+> of the container.
+
+## Verify the server is up and running
 
 To verify the contain is up and running execute the command below:
 
