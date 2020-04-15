@@ -94,7 +94,7 @@ public class GitHttpServlet extends HttpServlet {
         rootDirectoryFilename = System.getenv("GIT_REPOS_DIRECTORY");
         if (rootDirectoryFilename == null) {
             rootDirectoryFilename = System.getProperty("GIT_REPOS_DIRECTORY",
-                    System.getProperty("user.home") + "/.manorrock/aegean");
+                    System.getProperty("user.home") + "/.manorrock/aegean/repos");
         }
 
         rootDirectory = new File(rootDirectoryFilename);
