@@ -27,6 +27,9 @@ package com.manorrock.aegean;
 
 import java.io.File;
 import java.io.IOException;
+import static java.util.logging.Level.FINEST;
+import static java.util.logging.Level.INFO;
+import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Repository;
@@ -40,6 +43,11 @@ import org.eclipse.jgit.transport.resolver.ServiceNotEnabledException;
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public class GitRepositoryResolver extends FileResolver<HttpServletRequest> {
+
+    /**
+     * Stores the logger.
+     */
+    private static final Logger LOGGER = Logger.getLogger(GitRepositoryResolver.class.getName());
 
     /**
      * Stores the root directory.
@@ -68,13 +76,19 @@ public class GitRepositoryResolver extends FileResolver<HttpServletRequest> {
     @Override
     public Repository open(HttpServletRequest request, String name)
             throws RepositoryNotFoundException, ServiceNotEnabledException {
-
+        Repository repository;
+        if (LOGGER.isLoggable(FINEST)) {
+            LOGGER.entering(GitRepositoryResolver.class.getName(), "open");
+        }
         String directoryName = name;
         if (directoryName.contains("/")) {
             directoryName = directoryName.substring(0, directoryName.indexOf('/'));
         }
         File directory = new File(rootDirectory, directoryName);
         if (!directory.exists()) {
+            if (LOGGER.isLoggable(INFO)) {
+                LOGGER.log(INFO, "Creating repository: {0}", directoryName);
+            }
             try {
                 // create the repository on the fly.
                 Repository fileRepository = new FileRepositoryBuilder()
@@ -90,7 +104,10 @@ public class GitRepositoryResolver extends FileResolver<HttpServletRequest> {
                 throw new RepositoryNotFoundException(directory, ioe);
             }
         }
-
-        return super.open(request, name);
+        repository = super.open(request, name);
+        if (LOGGER.isLoggable(FINEST)) {
+            LOGGER.exiting(GitRepositoryResolver.class.getName(), "open", repository);
+        }
+        return repository;
     }
 }

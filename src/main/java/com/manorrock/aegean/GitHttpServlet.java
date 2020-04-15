@@ -28,8 +28,9 @@ package com.manorrock.aegean;
 import java.io.File;
 import java.io.IOException;
 import java.util.Enumeration;
+import static java.util.logging.Level.FINEST;
+import static java.util.logging.Level.INFO;
 import java.util.logging.Logger;
-import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
@@ -80,7 +81,13 @@ public class GitHttpServlet extends HttpServlet {
      */
     @Override
     public void destroy() {
+        if (LOGGER.isLoggable(FINEST)) {
+            LOGGER.entering(GitHttpServlet.class.getName(), "destroy");
+        }
         filter.destroy();
+        if (LOGGER.isLoggable(FINEST)) {
+            LOGGER.exiting(GitHttpServlet.class.getName(), "destroy");
+        }
     }
 
     /**
@@ -91,12 +98,20 @@ public class GitHttpServlet extends HttpServlet {
      */
     @Override
     public void init(final ServletConfig config) throws ServletException {
-        rootDirectoryFilename = System.getenv("GIT_REPOS_DIRECTORY");
+        if (LOGGER.isLoggable(FINEST)) {
+            LOGGER.entering(GitHttpServlet.class.getName(), "init");
+        }
+        
+        rootDirectoryFilename = System.getenv("REPOSITORIES_DIRECTORY");
         if (rootDirectoryFilename == null) {
-            rootDirectoryFilename = System.getProperty("GIT_REPOS_DIRECTORY",
+            rootDirectoryFilename = System.getProperty("REPOSITORIES_DIRECTORY",
                     System.getProperty("user.home") + "/.manorrock/aegean/repos");
         }
 
+        if (LOGGER.isLoggable(INFO)) {
+            LOGGER.log(INFO, "Repositories directory: {0}", rootDirectoryFilename);
+        }
+        
         rootDirectory = new File(rootDirectoryFilename);
 
         if (!rootDirectory.exists()) {
@@ -130,6 +145,10 @@ public class GitHttpServlet extends HttpServlet {
                 return config.getServletContext();
             }
         });
+        
+        if (LOGGER.isLoggable(FINEST)) {
+            LOGGER.exiting(GitHttpServlet.class.getName(), "init");
+        }
     }
 
     /**
@@ -144,22 +163,17 @@ public class GitHttpServlet extends HttpServlet {
     protected void service(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        filter.doFilter(request, response, new FilterChain() {
-
-            /**
-             * Do filter.
-             *
-             * @param request the request.
-             * @param response the response.
-             * @throws IOException when an I/O error occurs.
-             * @throws ServletException when a Servlet error occurs.
-             */
-            public void doFilter(ServletRequest request, ServletResponse response) throws IOException, ServletException {
-                if (request instanceof HttpServletRequest) {
-                    HttpServletResponse httpResponse = (HttpServletResponse) response;
-                    httpResponse.sendError(HttpServletResponse.SC_NOT_FOUND);
-                }
+        if (LOGGER.isLoggable(FINEST)) {
+            LOGGER.entering(GitHttpServlet.class.getName(), "service");
+        }
+        filter.doFilter(request, response, (ServletRequest servletRequest, ServletResponse servletResponse) -> {
+            if (servletRequest instanceof HttpServletRequest) {
+                HttpServletResponse httpResponse = (HttpServletResponse) servletResponse;
+                httpResponse.sendError(HttpServletResponse.SC_NOT_FOUND);
             }
         });
+        if (LOGGER.isLoggable(FINEST)) {
+            LOGGER.exiting(GitHttpServlet.class.getName(), "service");
+        }
     }
 }
