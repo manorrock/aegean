@@ -9,11 +9,11 @@ This project delivers a HTTP-based Git repository server.
 ```
 
 And replace VERSION with the version you want to use, or if you want to try out
-the version currently under development you can use __snapshot__ as the version.
+the version currently under development you can use `snapshot` as the version.
 
-_Note in the command line above we have mapped the /root/.manorrock/aegean/repos
+_Note_ in the command line above we have mapped the `/root/.manorrock/aegean/repos`
 to point to the current directory so we can persist the Git repositories outside
-of the container._
+of the container.
 
 To verify the contain is up and running execute the command below:
 
