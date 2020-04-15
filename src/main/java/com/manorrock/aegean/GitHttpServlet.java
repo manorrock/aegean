@@ -105,7 +105,7 @@ public class GitHttpServlet extends HttpServlet {
         rootDirectoryFilename = System.getenv("REPOSITORIES_DIRECTORY");
         if (rootDirectoryFilename == null) {
             rootDirectoryFilename = System.getProperty("REPOSITORIES_DIRECTORY",
-                    System.getProperty("user.home") + "/.manorrock/aegean/repos");
+                    System.getProperty("user.home") + "/.manorrock/aegean/repositories");
         }
 
         if (LOGGER.isLoggable(INFO)) {

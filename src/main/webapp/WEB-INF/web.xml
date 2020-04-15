@@ -10,7 +10,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>Git Servlet</servlet-name>
-        <url-pattern>/repos/*</url-pattern>
+        <url-pattern>/repositories/*</url-pattern>
     </servlet-mapping> 
     <session-config>
         <session-timeout>30</session-timeout>
