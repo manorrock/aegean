@@ -31,6 +31,7 @@ import java.util.Enumeration;
 import static java.util.logging.Level.FINEST;
 import static java.util.logging.Level.INFO;
 import java.util.logging.Logger;
+import javax.inject.Inject;
 import javax.servlet.FilterConfig;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
@@ -53,7 +54,13 @@ public class GitHttpServlet extends HttpServlet {
      * Stores the logger.
      */
     private static final Logger LOGGER = Logger.getLogger(GitHttpServlet.class.getName());
-
+    
+    /**
+     * Stores the application bean.
+     */
+    @Inject
+    private ApplicationBean application;
+    
     /**
      * Stores the Git filter.
      */
@@ -99,25 +106,9 @@ public class GitHttpServlet extends HttpServlet {
         if (LOGGER.isLoggable(FINEST)) {
             LOGGER.entering(GitHttpServlet.class.getName(), "init");
         }
-        
-        rootDirectoryFilename = System.getenv("REPOSITORIES_DIRECTORY");
-        if (rootDirectoryFilename == null) {
-            rootDirectoryFilename = System.getProperty("REPOSITORIES_DIRECTORY",
-                    System.getProperty("user.home") + "/.manorrock/aegean/repositories");
-        }
-
-        if (LOGGER.isLoggable(INFO)) {
-            LOGGER.log(INFO, "Repositories directory: {0}", rootDirectoryFilename);
-        }
-        
-        rootDirectory = new File(rootDirectoryFilename);
-
-        if (!rootDirectory.exists()) {
-            rootDirectory.mkdirs();
-        }
 
         if (repositoryResolver == null) {
-            repositoryResolver = new GitRepositoryResolver(rootDirectory);
+            repositoryResolver = new GitRepositoryResolver(application.getRepositoriesDirectory());
         }
 
         filter = new GitFilter();

@@ -3,11 +3,18 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:h="http://xmlns.jcp.org/jsf/html">
     <h:head>
+        <f:view transient="true"/>
         <title>Manorrock Aegean</title>
     </h:head>
     <h:body>
-        Welcome to Manorrock Aegean!
+        <h1>Welcome to Manorrock Aegean!</h1>
+        <h:dataTable value="#{indexBean.repositories}" var="repository">
+            <h:column>
+                <h:outputText value="#{repository}"/>
+            </h:column>
+        </h:dataTable>
     </h:body>
 </html>
