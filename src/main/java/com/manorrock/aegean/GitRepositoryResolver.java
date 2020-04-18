@@ -84,6 +84,9 @@ public class GitRepositoryResolver extends FileResolver<HttpServletRequest> {
         if (directoryName.contains("/")) {
             directoryName = directoryName.substring(0, directoryName.indexOf('/'));
         }
+        if (!directoryName.endsWith(".git")) {
+            directoryName = directoryName + ".git";
+        }
         File directory = new File(rootDirectory, directoryName);
         if (!directory.exists()) {
             if (LOGGER.isLoggable(INFO)) {
