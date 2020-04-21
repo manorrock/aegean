@@ -7,14 +7,10 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html">
     <h:head>
         <f:view transient="true"/>
-        <title>Manorrock Aegean</title>
+        <title>View repository</title>
     </h:head>
     <h:body>
-        <h1>Welcome to Manorrock Aegean!</h1>
-        <h:dataTable value="#{indexBean.repositories}" var="repository">
-            <h:column>
-                <a href="#{request.contextPath}/ui/view/#{repository}"><h:outputText value="#{repository}"/></a>
-            </h:column>
-        </h:dataTable>
+        <h1>View repository</h1>
+        <h2><h:outputText value="#{viewRepositoryBean.repository}"/></h2>
     </h:body>
 </html>
