@@ -7,11 +7,16 @@ RUN apt-get update && \
     tar xfvz zulu11.35.15-ca-jdk11.0.5-linux_x64.tar.gz && \
     mv zulu11.35.15-ca-jdk11.0.5-linux_x64 jdk && \
     rm zulu11.35.15-ca-jdk11.0.5-linux_x64.tar.gz && \
-    curl --insecure -L -O https://repo1.maven.org/maven2/cloud/piranha/piranha-micro/20.4.0/piranha-micro-20.4.0-all.jar && \
-    mkdir -p /usr/local/piranha && \
-    mv piranha-micro-20.4.0-all.jar /usr/local/piranha/piranha-micro.jar && \
+    curl --insecure -L -O http://apache.mirrors.hoobly.com/tomcat/tomcat-9/v9.0.34/bin/apache-tomcat-9.0.34.tar.gz && \
+    tar xfvz apache-tomcat-9.0.34.tar.gz && \
+    mv apache-tomcat-9.0.34 tomcat && \
+    rm apache-tomcat-9.0.34.tar.gz && \
+    rm -rf tomcat/webapps/*docs* && \
+    rm -rf tomcat/webapps/*examples* && \
+    rm -rf tomcat/webapps/*manager* && \
+    rm -rf tomcat/webapps/ROOT* && \
     rm -rf /var/lib/apt/lists/*
 ENV PATH=$PATH:/usr/local/jdk/bin
-WORKDIR /usr/local/piranha
-CMD ["java", "-jar", "piranha-micro.jar", "--war", "ROOT.war"]
-COPY target/aegean.war /usr/local/piranha/ROOT.war
+WORKDIR /usr/local/tomcat
+CMD ["bin/catalina.sh", "run"]
+COPY target/aegean.war /usr/local/tomcat/webapps/ROOT.war
