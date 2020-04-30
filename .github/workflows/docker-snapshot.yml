@@ -21,11 +21,9 @@ jobs:
         password: ${{ secrets.DOCKER_PASSWORD }}
     - name: Build amd64 image
       run: |
-        cd webapp
-        docker build -f src/main/docker/Dockerfile -t manorrock/munchkin:snapshot .
-        docker push manorrock/munchkin:snapshot
+        docker build -f src/main/docker/Dockerfile -t manorrock/aegean:snapshot .
+        docker push manorrock/aegean:snapshot
     - name: Build ARM32v6 image
       run: |
-        cd webapp
-        docker build -f src/main/docker/Dockerfile.ARM32v6 -t manorrock/munchkin:arm32v6-snapshot .
-        docker push manorrock/munchkin:arm32v6-snapshot
+        docker build -f src/main/docker/Dockerfile.ARM32v6 -t manorrock/aegean:arm32v6-snapshot .
+        docker push manorrock/aegean:arm32v6-snapshot
