@@ -25,6 +25,8 @@ jobs:
         git checkout $BRANCH
         git checkout -b release
         mvn -B versions:set versions:commit -DnewVersion=$VERSION
+        git config --global user.email "noreply@manorrock.com"
+        git config --global user.name "Automated release"
         git commit -a -m "Releasing version $VERSION"
         git tag v$VERSION -f
         # git push origin v$VERSION -f
