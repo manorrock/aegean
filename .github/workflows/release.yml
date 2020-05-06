@@ -11,6 +11,7 @@ jobs:
       uses: actions/checkout@v2
     - name: Release from given branch with given version
       run: |
+        git fetch --no-tags --prune --depth=1 origin +refs/heads/*:refs/remotes/origin/*
         TAG=${GITHUB_REF}
         echo $TAG
         RELEASE=${TAG%%-*}
