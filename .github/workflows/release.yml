@@ -12,10 +12,15 @@ jobs:
     - name: Release from given branch with given version
       run: |
         TAG=${GITHUB_REF}
+        echo $TAG
         RELEASE=${TAG%%-*}
+        echo $RELEASE
         CANDIDATE=${TAG:${#RELEASE}+1}
+        echo $CANDIDATE
         VERSION=${CANDIDATE#*-}
+        echo $VERSION
         BRANCH=${CANDIDATE%-*}
+        echo $BRANCH
         git checkout $BRANCH
         git checkout -b release
         mvn -B versions:set versions:commit -DnewVersion=$VERSION
@@ -24,4 +29,4 @@ jobs:
         # git push origin v$VERSION -f
         git checkout $BRANCH
         git branch -D release
-        git push origin :${TAG}
+        # git push origin :${TAG}
