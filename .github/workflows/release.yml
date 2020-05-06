@@ -29,7 +29,7 @@ jobs:
         git config --global user.name "Automated release"
         git commit -a -m "Releasing version $VERSION"
         git tag v$VERSION -f
-        # git push origin v$VERSION -f
+        git push origin v$VERSION -f
         git checkout $BRANCH
         git branch -D release
         # git push origin :${TAG}

@@ -1,5 +1,8 @@
 name: maven
-on: [push]
+on: 
+  push:
+    tags-ignore:
+      - 'release-*'
 jobs:
   build:
     runs-on: ubuntu-latest
