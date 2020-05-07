@@ -1,7 +1,7 @@
-name: docker-snapshot
+name: nightly
 on:
   schedule:
-  - cron: "0 12 * * *"
+  - cron: "0 0 * * *"
 jobs:
   build:
     runs-on: ubuntu-latest

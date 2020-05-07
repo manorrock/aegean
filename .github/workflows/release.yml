@@ -2,36 +2,35 @@ name: release
 on:
   push:
     tags:        
-      - release-*
+      - v*
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout sources
-      uses: actions/checkout@v2
+      uses: actions/checkout@v1
+    - name: Set up Java 10
+      uses: actions/setup-java@v1
       with:
-        token: ${{ secrets.GIT_PASSWORD }}
-    - name: Release from given branch with given version
+        java-version: 10
+    - name: Build with Maven
+      run: mvn -B -DskipTests=true -f pom.xml install
+    - name: Login to Docker Hub
+      uses: azure/docker-login@v1
+      with:
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+    - name: Build amd64 image
       run: |
-        git fetch --no-tags --prune --depth=1 origin +refs/heads/*:refs/remotes/origin/*
         TAG=${GITHUB_REF}
-        echo $TAG
-        RELEASE=${TAG%%-*}
-        echo $RELEASE
-        CANDIDATE=${TAG:${#RELEASE}+1}
-        echo $CANDIDATE
-        VERSION=${CANDIDATE#*-}
-        echo $VERSION
-        BRANCH=${CANDIDATE%-*}
-        echo $BRANCH
-        git checkout $BRANCH
-        git checkout -b release
-        mvn -B versions:set versions:commit -DnewVersion=$VERSION
-        git config --global user.email "noreply@manorrock.com"
-        git config --global user.name "Automated release"
-        git commit -a -m "Releasing version $VERSION"
-        git tag v$VERSION -f
-        git push origin v$VERSION -f
-        git checkout $BRANCH
-        git branch -D release
-        git push origin :${TAG}
+        INDEX=${TAG%v*}
+        VERSION=${TAG:${#INDEX}}
+        docker build -f src/main/docker/Dockerfile -t manorrock/aegean:$VERSION .
+        docker push manorrock/aegean:$VERSION
+    - name: Build ARM32v6 image
+      run: |
+        TAG=${GITHUB_REF}
+        INDEX=${TAG%v*}
+        VERSION=${TAG:${#INDEX}}
+        docker build -f src/main/docker/Dockerfile.ARM32v6 -t manorrock/aegean:arm32v6-$VERSION .
+        docker push manorrock/aegean:arm32v6-$VERSION
