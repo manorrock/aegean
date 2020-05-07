@@ -23,56 +23,35 @@
  *  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  *  POSSIBILITY OF SUCH DAMAGE.
  */
-package com.manorrock.aegean.ui;
-
-import java.io.Serializable;
-import javax.enterprise.context.RequestScoped;
-import javax.inject.Named;
-import javax.servlet.http.HttpServletRequest;
-import org.omnifaces.oyena.action.ActionMapping;
+package com.manorrock.aegean;
 
 /**
- * The bean for viewing a repository.
+ * The model used for displaying files.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-@Named("viewRepositoryBean")
-@RequestScoped
-public class ViewRepositoryBean implements Serializable {
-    
-    /**
-     * Stores the repository.
-     */
-    private String repository;
+public class FileModel {
 
     /**
-     * Execute the page.
-     *
-     * @param request the HTTP servlet request.
-     * @return /index.xhtml
+     * Set the filename.
      */
-    @ActionMapping("/view/*")
-    public String execute(HttpServletRequest request) {
-        repository = request.getRequestURI().substring(
-                request.getRequestURI().lastIndexOf("/") + 1);
-        return "/WEB-INF/ui/view.xhtml";
+    private String filename;
+
+    /**
+     * Get the filename.
+     * 
+     * @return the filename.
+     */
+    public String getFilename() {
+        return filename;
     }
 
     /**
-     * Get the repository.
+     * Set the filename.
      * 
-     * @return the repository.
+     * @param filename the filename. 
      */
-    public String getRepository() {
-        return repository;
-    }
-
-    /**
-     * Set the repository.
-     * 
-     * @param repository the repository.
-     */
-    public void setRepository(String repository) {
-        this.repository = repository;
+    public void setFilename(String filename) {
+        this.filename = filename;
     }
 }

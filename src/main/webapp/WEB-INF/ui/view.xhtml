@@ -11,6 +11,11 @@
     </h:head>
     <h:body>
         <h1>View repository</h1>
-        <h2><h:outputText value="#{viewRepositoryBean.repository}"/></h2>
+        <h2><h:outputText value="#{viewController.repository}"/></h2>
+        <h:dataTable var="file" value="#{viewController.files}">
+            <h:column>
+                <h:outputText value="#{file.filename}"/>
+            </h:column>
+        </h:dataTable>
     </h:body>
 </html>

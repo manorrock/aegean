@@ -26,66 +26,61 @@
 package com.manorrock.aegean;
 
 import java.io.File;
-import static java.util.logging.Level.INFO;
-import java.util.logging.Logger;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
+import org.omnifaces.oyena.action.ActionMapping;
 
 /**
- * The one and only application bean.
+ * The controller for the index page.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-@ApplicationScoped
-public class ApplicationBean {
+@Named("indexController")
+@RequestScoped
+public class IndexController implements Serializable {
     
     /**
-     * Stores the logger.
+     * Stores the list of repositories.
      */
-    private static final Logger LOGGER = Logger.getLogger(ApplicationBean.class.getName());
-
+    private final List<String> repositories = new ArrayList();
+    
     /**
-     * Stores the repositories directory.
+     * Stores the application bean.
      */
-    private File repositoriesDirectory;
-
+    @Inject
+    private Application application;
+    
     /**
-     * Initialize.
+     * Initialize the bean.
      */
     @PostConstruct
     public void initialize() {
-        String rootDirectoryFilename = System.getenv("REPOSITORIES_DIRECTORY");
-        if (rootDirectoryFilename == null) {
-            rootDirectoryFilename = System.getProperty("REPOSITORIES_DIRECTORY",
-                    System.getProperty("user.home") + "/.manorrock/aegean/repositories");
-        }
-
-        if (LOGGER.isLoggable(INFO)) {
-            LOGGER.log(INFO, "Repositories directory: {0}", rootDirectoryFilename);
-        }
-        
-        repositoriesDirectory = new File(rootDirectoryFilename);
-
-        if (!repositoriesDirectory.exists()) {
-            repositoriesDirectory.mkdirs();
-        }
+        File directory = application.getRepositoriesDirectory();
+        repositories.addAll(Arrays.asList(directory.list()));
     }
 
     /**
-     * Get the repositories directory.
+     * Execute the page.
      *
-     * @return the repositories directory.
+     * @return /index.xhtml
      */
-    public File getRepositoriesDirectory() {
-        return repositoriesDirectory;
+    @ActionMapping("/")
+    public String execute() {
+        return "/WEB-INF/ui/index.xhtml";
     }
-
+    
     /**
-     * Set the repositories directory.
-     *
-     * @param repositoriesDirectory the repositories directory.
+     * Get the repositories.
+     * 
+     * @return the repositories.
      */
-    public void setRepositoriesDirectory(File repositoriesDirectory) {
-        this.repositoriesDirectory = repositoriesDirectory;
+    public List getRepositories() {
+        return repositories;
     }
 }

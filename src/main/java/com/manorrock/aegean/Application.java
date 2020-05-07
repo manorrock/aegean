@@ -23,65 +23,69 @@
  *  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  *  POSSIBILITY OF SUCH DAMAGE.
  */
-package com.manorrock.aegean.ui;
+package com.manorrock.aegean;
 
-import com.manorrock.aegean.ApplicationBean;
 import java.io.File;
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import static java.util.logging.Level.INFO;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.RequestScoped;
-import javax.inject.Inject;
-import javax.inject.Named;
-import org.omnifaces.oyena.action.ActionMapping;
+import javax.enterprise.context.ApplicationScoped;
 
 /**
- * The bean for the index page.
+ * The one and only application bean.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-@Named("indexBean")
-@RequestScoped
-public class IndexBean implements Serializable {
+@ApplicationScoped
+public class Application {
     
     /**
-     * Stores the list of repositories.
+     * Stores the logger.
      */
-    private List<String> repositories = new ArrayList();
-    
+    private static final Logger LOGGER = Logger.getLogger(Application.class.getName());
+
     /**
-     * Stores the application bean.
+     * Stores the repositories directory.
      */
-    @Inject
-    private ApplicationBean application;
-    
+    private File repositoriesDirectory;
+
     /**
-     * Initialize the bean.
+     * Initialize.
      */
     @PostConstruct
     public void initialize() {
-        File directory = application.getRepositoriesDirectory();
-        repositories.addAll(Arrays.asList(directory.list()));
+        String rootDirectoryFilename = System.getenv("REPOSITORIES_DIRECTORY");
+        if (rootDirectoryFilename == null) {
+            rootDirectoryFilename = System.getProperty("REPOSITORIES_DIRECTORY",
+                    System.getProperty("user.home") + "/.manorrock/aegean/repositories");
+        }
+
+        if (LOGGER.isLoggable(INFO)) {
+            LOGGER.log(INFO, "Repositories directory: {0}", rootDirectoryFilename);
+        }
+        
+        repositoriesDirectory = new File(rootDirectoryFilename);
+
+        if (!repositoriesDirectory.exists()) {
+            repositoriesDirectory.mkdirs();
+        }
     }
 
     /**
-     * Execute the page.
+     * Get the repositories directory.
      *
-     * @return /index.xhtml
+     * @return the repositories directory.
      */
-    @ActionMapping("/")
-    public String execute() {
-        return "/WEB-INF/ui/index.xhtml";
+    public File getRepositoriesDirectory() {
+        return repositoriesDirectory;
     }
-    
+
     /**
-     * Get the repositories.
-     * 
-     * @return the repositories.
+     * Set the repositories directory.
+     *
+     * @param repositoriesDirectory the repositories directory.
      */
-    public List getRepositories() {
-        return repositories;
+    public void setRepositoriesDirectory(File repositoriesDirectory) {
+        this.repositoriesDirectory = repositoriesDirectory;
     }
 }

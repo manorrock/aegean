@@ -25,11 +25,9 @@
  */
 package com.manorrock.aegean;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.Enumeration;
 import static java.util.logging.Level.FINEST;
-import static java.util.logging.Level.INFO;
 import java.util.logging.Logger;
 import javax.inject.Inject;
 import javax.servlet.FilterConfig;
@@ -56,10 +54,10 @@ public class GitHttpServlet extends HttpServlet {
     private static final Logger LOGGER = Logger.getLogger(GitHttpServlet.class.getName());
     
     /**
-     * Stores the application bean.
+     * Stores the application.
      */
     @Inject
-    private ApplicationBean application;
+    private Application application;
     
     /**
      * Stores the Git filter.
@@ -70,16 +68,6 @@ public class GitHttpServlet extends HttpServlet {
      * Stores the repository resolver.
      */
     private transient GitRepositoryResolver repositoryResolver;
-
-    /**
-     * Stores the root directory.
-     */
-    private File rootDirectory;
-
-    /**
-     * Stores the root directory filename.
-     */
-    private String rootDirectoryFilename;
 
     /**
      * Destroy the servlet.

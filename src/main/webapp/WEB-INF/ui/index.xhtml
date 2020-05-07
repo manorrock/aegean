@@ -11,7 +11,7 @@
     </h:head>
     <h:body>
         <h1>Welcome to Manorrock Aegean!</h1>
-        <h:dataTable value="#{indexBean.repositories}" var="repository">
+        <h:dataTable value="#{indexController.repositories}" var="repository">
             <h:column>
                 <a href="#{request.contextPath}/ui/view/#{repository}"><h:outputText value="#{repository}"/></a>
             </h:column>
