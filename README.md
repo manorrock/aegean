@@ -14,6 +14,8 @@ And replace VERSION with the version you want to use.
 > `/root/.manorrock/aegean/repositories` directory to point to the current directory so
 > we can persist the Git repositories outside of the container.
 
+Note you can find the available tags on [Docker Hub](https://hub.docker.com/r/manorrock/aegean)
+
 ## Verify the server is up and running
 
 To verify the container is up and running execute the command below:
