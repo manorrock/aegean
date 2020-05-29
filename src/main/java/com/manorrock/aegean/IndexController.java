@@ -30,6 +30,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
@@ -44,25 +45,29 @@ import org.omnifaces.oyena.action.ActionMapping;
 @Named("indexController")
 @RequestScoped
 public class IndexController implements Serializable {
-    
+
     /**
      * Stores the list of repositories.
      */
     private final List<String> repositories = new ArrayList();
-    
+
     /**
      * Stores the application bean.
      */
     @Inject
     private Application application;
-    
+
     /**
      * Initialize the bean.
      */
     @PostConstruct
     public void initialize() {
         File directory = application.getRepositoriesDirectory();
-        repositories.addAll(Arrays.asList(directory.list()));
+        repositories.addAll(Arrays.
+                asList(directory.list()).
+                stream().
+                map(filename -> filename.substring(0, filename.indexOf(".git"))).
+                collect(Collectors.toList()));
     }
 
     /**
@@ -74,10 +79,10 @@ public class IndexController implements Serializable {
     public String execute() {
         return "/WEB-INF/ui/index.xhtml";
     }
-    
+
     /**
      * Get the repositories.
-     * 
+     *
      * @return the repositories.
      */
     public List getRepositories() {
