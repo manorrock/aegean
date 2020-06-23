@@ -25,5 +25,5 @@ jobs:
         docker push manorrock/aegean:snapshot
     - name: Build arm image
       run: |
-        docker build -f src/main/docker/Dockerfile.ar, -t manorrock/aegean:arm-snapshot .
+        docker build -f src/main/docker/Dockerfile.arm -t manorrock/aegean:arm-snapshot .
         docker push manorrock/aegean:arm-snapshot
