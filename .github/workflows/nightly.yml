@@ -27,3 +27,14 @@ jobs:
       run: |
         docker build -f src/main/docker/Dockerfile.arm -t manorrock/aegean:arm-snapshot .
         docker push manorrock/aegean:arm-snapshot
+    - name: Push Docker manifest
+      run: |
+        export DOCKER_CLI_EXPERIMENTAL=enabled
+        docker manifest create manorrock/aegean:snapshot \
+          manorrock/aegean:amd64-snapshot \
+          manorrock/aegean:arm-snapshot
+        docker manifest annotate manorrock/aegean:snapshot \
+          manorrock/aegean:amd64-snapshot --os linux --arch amd64
+        docker manifest annotate manorrock/aegean:snapshot \
+          manorrock/aegean:arm-snapshot --os linux --arch arm
+        docker manifest push manorrock/aegean:snapshot
