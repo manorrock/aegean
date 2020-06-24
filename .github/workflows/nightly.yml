@@ -21,8 +21,8 @@ jobs:
         password: ${{ secrets.DOCKER_PASSWORD }}
     - name: Build amd64 image
       run: |
-        docker build -f src/main/docker/Dockerfile.amd64 -t manorrock/aegean:snapshot .
-        docker push manorrock/aegean:snapshot
+        docker build -f src/main/docker/Dockerfile.amd64 -t manorrock/aegean:amd64-snapshot .
+        docker push manorrock/aegean:amd64-snapshot
     - name: Build arm image
       run: |
         docker build -f src/main/docker/Dockerfile.arm -t manorrock/aegean:arm-snapshot .
