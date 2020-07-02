@@ -43,6 +43,8 @@ import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
 import org.eclipse.jgit.treewalk.TreeWalk;
+import org.eclipse.jgit.treewalk.filter.PathFilter;
+import org.eclipse.jgit.treewalk.filter.PathFilterGroup;
 import org.omnifaces.oyena.action.ActionMapping;
 
 /**
@@ -64,6 +66,11 @@ public class ViewController implements Serializable {
      */
     @Inject
     private Application application;
+    
+    /**
+     * Stores the current directory.
+     */
+    private String currentDirectory = "";
 
     /**
      * Stores the files.
@@ -83,28 +90,46 @@ public class ViewController implements Serializable {
      */
     @ActionMapping("/view/*")
     public String view(HttpServletRequest request) {
+        String refParameter = request.getParameter("ref");
+        if (refParameter == null) {
+            refParameter = "master";
+        }
+        
         repository = request.getRequestURI().substring(
                 request.getRequestURI().lastIndexOf("/") + 1) + ".git";
-        
-        try (Repository fileRepository = new FileRepositoryBuilder()
+
+        try ( Repository fileRepository = new FileRepositoryBuilder()
                 .setGitDir(new File(application.getRepositoriesDirectory(), repository))
                 .findGitDir()
                 .build()) {
 
-            Ref ref = fileRepository.getRefDatabase().findRef("master");
+            Ref ref = fileRepository.getRefDatabase().findRef(refParameter);
             RevWalk revWalk = new RevWalk(fileRepository);
-            
+
             if (ref != null) {
                 RevCommit commit = revWalk.parseCommit(ref.getObjectId());
                 RevTree tree = commit.getTree();
 
-                try (TreeWalk treeWalk = new TreeWalk(fileRepository)) {
+                try ( TreeWalk treeWalk = new TreeWalk(fileRepository)) {
                     treeWalk.addTree(tree);
-                    treeWalk.setRecursive(false);
+                    if (currentDirectory.equals("")) {
+                        treeWalk.setRecursive(false);
+                    } else {
+                        treeWalk.setRecursive(false);
+                        treeWalk.setFilter(PathFilterGroup.createFromStrings(currentDirectory));
+                    }
                     while (treeWalk.next()) {
-                        FileModel fileModel = new FileModel();
-                        fileModel.setFilename(treeWalk.getNameString());
-                        files.add(fileModel);
+                        String filename = treeWalk.getNameString();
+                        if (treeWalk.isSubtree()) {
+                            FileModel fileModel = new FileModel();
+                            fileModel.setFilename(filename);
+                            fileModel.setDirectory(true);
+                            files.add(fileModel);
+                        } else {
+                            FileModel fileModel = new FileModel();
+                            fileModel.setFilename(treeWalk.getNameString());
+                            files.add(fileModel);
+                        }
                     }
                 }
             }
@@ -115,10 +140,10 @@ public class ViewController implements Serializable {
         }
         return "/WEB-INF/ui/view.xhtml";
     }
-    
+
     /**
      * Get the files.
-     * 
+     *
      * @return the files.
      */
     public List<FileModel> getFiles() {
@@ -132,14 +157,5 @@ public class ViewController implements Serializable {
      */
     public String getRepository() {
         return repository;
-    }
-
-    /**
-     * Set the repository.
-     *
-     * @param repository the repository.
-     */
-    public void setRepository(String repository) {
-        this.repository = repository;
     }
 }

@@ -26,11 +26,16 @@
 package com.manorrock.aegean;
 
 /**
- * The model used for displaying files.
+ * The model used for displaying files/directories.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public class FileModel {
+    
+    /**
+     * Stores the directory flag.
+     */
+    private boolean directory;
 
     /**
      * Set the filename.
@@ -45,6 +50,15 @@ public class FileModel {
     public String getFilename() {
         return filename;
     }
+    
+    /**
+     * Is directory.
+     * 
+     * @return true if it is, false otherwise.
+     */
+    public boolean isDirectory() {
+        return directory;
+    }
 
     /**
      * Set the filename.
@@ -53,5 +67,14 @@ public class FileModel {
      */
     public void setFilename(String filename) {
         this.filename = filename;
+    }
+
+    /**
+     * Set the directory flag.
+     * 
+     * @param directory the directory flag. 
+     */
+    public void setDirectory(boolean directory) {
+        this.directory = directory;
     }
 }
