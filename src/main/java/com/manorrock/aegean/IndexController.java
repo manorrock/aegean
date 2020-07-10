@@ -68,6 +68,7 @@ public class IndexController implements Serializable {
                 stream().
                 map(filename -> filename.substring(0, filename.indexOf(".git"))).
                 collect(Collectors.toList()));
+        repositories.sort(null);
     }
 
     /**
