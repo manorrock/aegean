@@ -31,3 +31,11 @@ h1 {
     border-bottom-width:  1px;
     width: 100%;
 }
+
+#footer {
+    color: crimson;
+    font-size: 8px;
+    border-top-style: solid;
+    border-top-width:  1px;
+    width: 100%;
+}
