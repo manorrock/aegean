@@ -24,18 +24,11 @@
  *  POSSIBILITY OF SUCH DAMAGE.
  */
 
-h1 {
-    color: crimson;
-    font-size: 20px;
-    border-bottom-style: solid;
-    border-bottom-width:  1px;
-    width: 100%;
-}
-
 #footer {
     color: crimson;
     font-size: 8px;
     border-top-style: solid;
     border-top-width:  1px;
+    text-align: center;
     width: 100%;
 }
