@@ -1,7 +1,7 @@
 #
 # Use Manorrock Server image
 #
-FROM manorrock/server:arm-v20.6.0
+FROM manorrock/server:arm-v20.7.0
 
 #
 # Setup for cross-platform building.
