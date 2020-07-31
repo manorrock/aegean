@@ -66,7 +66,7 @@ public class ViewController implements Serializable {
      */
     @Inject
     private Application application;
-    
+
     /**
      * Stores the current directory.
      */
@@ -94,12 +94,12 @@ public class ViewController implements Serializable {
         if (refParameter == null) {
             refParameter = "master";
         }
-        
+
         repository = request.getRequestURI().substring(
-                request.getRequestURI().lastIndexOf("/") + 1) + ".git";
+                request.getRequestURI().lastIndexOf("/") + 1);
 
         try ( Repository fileRepository = new FileRepositoryBuilder()
-                .setGitDir(new File(application.getRepositoriesDirectory(), repository))
+                .setGitDir(new File(application.getRepositoriesDirectory(), repository + ".git"))
                 .findGitDir()
                 .build()) {
 
