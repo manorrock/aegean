@@ -9,7 +9,6 @@
     <body>
         <ui:composition template="template.xhtml">
             <ui:define name="content">
-                <h1>View repository</h1>
                 <h2><h:outputText value="#{viewController.repository}"/></h2>
                 <h:dataTable var="file" value="#{viewController.files}">
                     <h:column>
