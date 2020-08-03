@@ -43,7 +43,6 @@ import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
 import org.eclipse.jgit.treewalk.TreeWalk;
-import org.eclipse.jgit.treewalk.filter.PathFilter;
 import org.eclipse.jgit.treewalk.filter.PathFilterGroup;
 import org.omnifaces.oyena.action.ActionMapping;
 
@@ -59,13 +58,18 @@ public class ViewController implements Serializable {
     /**
      * Stores the logger.
      */
-    private static final Logger LOGGER = Logger.getLogger(ViewController.class.getPackageName());
+    private static final Logger LOGGER = Logger.getLogger(ViewController.class.getName());
 
     /**
      * Stores the application.
      */
     @Inject
     private Application application;
+
+    /**
+     * Stores the clone URL.
+     */
+    private String cloneUrl;
 
     /**
      * Stores the current directory.
@@ -81,6 +85,33 @@ public class ViewController implements Serializable {
      * Stores the repository.
      */
     private String repository;
+
+    /**
+     * Get the files.
+     *
+     * @return the files.
+     */
+    public List<FileModel> getFiles() {
+        return files;
+    }
+
+    /**
+     * Get the repository.
+     *
+     * @return the repository.
+     */
+    public String getRepository() {
+        return repository;
+    }
+
+    /**
+     * Get the clone URL.
+     *
+     * @return the clone URL.
+     */
+    public String getCloneUrl() {
+        return cloneUrl;
+    }
 
     /**
      * Execute the page.
@@ -133,29 +164,23 @@ public class ViewController implements Serializable {
                     }
                 }
             }
+
+            if (request.getScheme().equalsIgnoreCase("https")) {
+                cloneUrl = request.getScheme() + "://" + request.getServerName()
+                        + (request.getServerPort() == 443 ? "" : ":" + request.getServerPort()) 
+                        + (request.getContextPath().equals("") ? "/" : request.getContextPath()) 
+                        + "repositories/" + repository + ".git";
+            } else {
+                cloneUrl = request.getScheme() + "://" + request.getServerName()
+                        + (request.getServerPort() == 80 ? "" : ":" + request.getServerPort()) 
+                        + (request.getContextPath().equals("") ? "/" : request.getContextPath()) 
+                        + "repositories/" + repository + ".git";
+            }
         } catch (IOException ioe) {
             if (LOGGER.isLoggable(WARNING)) {
                 LOGGER.log(WARNING, "Error viewing repository", ioe);
             }
         }
         return "/WEB-INF/ui/view.xhtml";
-    }
-
-    /**
-     * Get the files.
-     *
-     * @return the files.
-     */
-    public List<FileModel> getFiles() {
-        return files;
-    }
-
-    /**
-     * Get the repository.
-     *
-     * @return the repository.
-     */
-    public String getRepository() {
-        return repository;
     }
 }
