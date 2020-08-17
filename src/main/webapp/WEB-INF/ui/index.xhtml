@@ -11,7 +11,7 @@
             <ui:define name="content">
                 <h:dataTable value="#{indexController.repositories}" var="repository">
                     <h:column>
-                        <a href="#{request.contextPath}/ui/view/#{repository}"><h:outputText value="#{repository}"/></a>
+                        <a href="#{request.contextPath}/ui/browse/#{repository}"><h:outputText value="#{repository}"/></a>
                     </h:column>
                 </h:dataTable>
             </ui:define>

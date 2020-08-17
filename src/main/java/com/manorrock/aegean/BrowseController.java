@@ -47,18 +47,18 @@ import org.eclipse.jgit.treewalk.filter.PathFilterGroup;
 import org.omnifaces.oyena.action.ActionMapping;
 
 /**
- * The controller for viewing a repository.
+ * The controller for browsing a repository.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-@Named("viewController")
+@Named("browse")
 @RequestScoped
-public class ViewController implements Serializable {
+public class BrowseController implements Serializable {
 
     /**
      * Stores the logger.
      */
-    private static final Logger LOGGER = Logger.getLogger(ViewController.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(BrowseController.class.getName());
 
     /**
      * Stores the application.
@@ -119,8 +119,8 @@ public class ViewController implements Serializable {
      * @param request the HTTP servlet request.
      * @return /index.xhtml
      */
-    @ActionMapping("/view/*")
-    public String view(HttpServletRequest request) {
+    @ActionMapping("/browse/*")
+    public String browse(HttpServletRequest request) {
         String refParameter = request.getParameter("ref");
         if (refParameter == null) {
             refParameter = "master";
@@ -178,9 +178,9 @@ public class ViewController implements Serializable {
             }
         } catch (IOException ioe) {
             if (LOGGER.isLoggable(WARNING)) {
-                LOGGER.log(WARNING, "Error viewing repository", ioe);
+                LOGGER.log(WARNING, "Error browsing repository", ioe);
             }
         }
-        return "/WEB-INF/ui/view.xhtml";
+        return "/WEB-INF/ui/browse.xhtml";
     }
 }
