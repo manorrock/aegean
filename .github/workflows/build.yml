@@ -28,7 +28,7 @@ jobs:
         docker push manorrock/aegean:amd64-snapshot
     - name: Build arm32v6 image
       run: |
-        docker build -f src/main/docker/Dockerfile.arm -t manorrock/aegean:arm32v6-snapshot .
+        docker build -f src/main/docker/Dockerfile.arm32v6 -t manorrock/aegean:arm32v6-snapshot .
         docker push manorrock/aegean:arm32v6-snapshot
     - name: Push Docker manifest
       run: |

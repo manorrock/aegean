@@ -1,7 +1,7 @@
 #
 # Use Manorrock Server image
 #
-FROM manorrock/server:v20.7.0
+FROM manorrock/server:amd64-v20.9.0
 
 #
 # Copy Manorrock Aegean into Tomcat 9.
