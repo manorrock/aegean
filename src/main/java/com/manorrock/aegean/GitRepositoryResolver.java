@@ -63,16 +63,7 @@ public class GitRepositoryResolver extends FileResolver<HttpServletRequest> {
         super(gitDirectory, true);
         this.rootDirectory = gitDirectory;
     }
-
-    /**
-     * Open the repository.
-     *
-     * @param request the request.
-     * @param name the repository name.
-     * @return the repository.
-     * @throws RepositoryNotFoundException when the repository cannot be found.
-     * @throws ServiceNotEnabledException when the repository is not enabled.
-     */
+    
     @Override
     public Repository open(HttpServletRequest request, String name)
             throws RepositoryNotFoundException, ServiceNotEnabledException {

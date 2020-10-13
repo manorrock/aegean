@@ -52,13 +52,13 @@ public class GitHttpServlet extends HttpServlet {
      * Stores the logger.
      */
     private static final Logger LOGGER = Logger.getLogger(GitHttpServlet.class.getName());
-    
+
     /**
      * Stores the application.
      */
     @Inject
     private Application application;
-    
+
     /**
      * Stores the Git filter.
      */
@@ -74,26 +74,14 @@ public class GitHttpServlet extends HttpServlet {
      */
     @Override
     public void destroy() {
-        if (LOGGER.isLoggable(FINEST)) {
-            LOGGER.entering(GitHttpServlet.class.getName(), "destroy");
-        }
+        LOGGER.entering(GitHttpServlet.class.getName(), "destroy");
         filter.destroy();
-        if (LOGGER.isLoggable(FINEST)) {
-            LOGGER.exiting(GitHttpServlet.class.getName(), "destroy");
-        }
+        LOGGER.exiting(GitHttpServlet.class.getName(), "destroy");
     }
 
-    /**
-     * Initialize the servlet.
-     *
-     * @param config the servlet config.
-     * @throws ServletException when a Servlet error occurs.
-     */
     @Override
     public void init(final ServletConfig config) throws ServletException {
-        if (LOGGER.isLoggable(FINEST)) {
-            LOGGER.entering(GitHttpServlet.class.getName(), "init");
-        }
+        LOGGER.entering(GitHttpServlet.class.getName(), "init");
 
         if (repositoryResolver == null) {
             repositoryResolver = new GitRepositoryResolver(application.getRepositoriesDirectory());
@@ -122,35 +110,21 @@ public class GitHttpServlet extends HttpServlet {
                 return config.getServletContext();
             }
         });
-        
-        if (LOGGER.isLoggable(FINEST)) {
-            LOGGER.exiting(GitHttpServlet.class.getName(), "init");
-        }
+
+        LOGGER.exiting(GitHttpServlet.class.getName(), "init");
     }
 
-    /**
-     * Process the request.
-     *
-     * @param request the request.
-     * @param response the response.
-     * @throws ServletException when a Servlet error occurs.
-     * @throws IOException when an I/O error occurs.
-     */
     @Override
     protected void service(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        if (LOGGER.isLoggable(FINEST)) {
-            LOGGER.entering(GitHttpServlet.class.getName(), "service");
-        }
+        LOGGER.entering(GitHttpServlet.class.getName(), "service");
         filter.doFilter(request, response, (ServletRequest servletRequest, ServletResponse servletResponse) -> {
             if (servletRequest instanceof HttpServletRequest) {
                 HttpServletResponse httpResponse = (HttpServletResponse) servletResponse;
                 httpResponse.sendError(HttpServletResponse.SC_NOT_FOUND);
             }
         });
-        if (LOGGER.isLoggable(FINEST)) {
-            LOGGER.exiting(GitHttpServlet.class.getName(), "service");
-        }
+        LOGGER.exiting(GitHttpServlet.class.getName(), "service");
     }
 }
