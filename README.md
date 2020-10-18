@@ -35,8 +35,8 @@ Congratulations you are now running Manorrock Aegean!
 
 ## Testing SNAPSHOT versions
 
-Every night we push a SNAPSHOT version to Docker Hub. If you want to give the
-version under development a test drive use `snapshot` as the version for the
+Upon every buildt we push a SNAPSHOT version to Docker Hub. If you want to give
+the version under development a test drive use `snapshot` as the version for the
 instructions above.
 
 ## Important notice
