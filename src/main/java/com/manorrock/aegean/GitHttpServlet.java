@@ -27,7 +27,6 @@ package com.manorrock.aegean;
 
 import java.io.IOException;
 import java.util.Enumeration;
-import static java.util.logging.Level.FINEST;
 import java.util.logging.Logger;
 import javax.inject.Inject;
 import javax.servlet.FilterConfig;

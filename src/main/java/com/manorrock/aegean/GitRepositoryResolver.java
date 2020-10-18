@@ -84,13 +84,18 @@ public class GitRepositoryResolver extends FileResolver<HttpServletRequest> {
                 LOGGER.log(INFO, "Creating repository: {0}", directoryName);
             }
             try {
-                // create the repository on the fly.
+                /*
+                 * Create the repository on the fly.
+                */
                 Repository fileRepository = new FileRepositoryBuilder()
                         .setGitDir(directory)
                         .findGitDir()
                         .build();
                 fileRepository.create(true);
-                // the line below is there to make anonymous push possible
+                
+                /*
+                 * Make sure anonymous push is possible.
+                */
                 fileRepository.getConfig().setBoolean("http", null, "receivepack", true);
                 fileRepository.getConfig().save();
                 fileRepository.close();
