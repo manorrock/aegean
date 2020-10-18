@@ -33,7 +33,7 @@ jobs:
         INDEX=${TAG%v*}
         VERSION=${TAG:${#INDEX}}
         docker build -f src/main/docker/Dockerfile.arm32v6 -t manorrock/aegean:arm32v6-$VERSION .
-        docker push manorrock/aegean:arm-$VERSION
+        docker push manorrock/aegean:arm32v6-$VERSION
     - name: Push Docker manifest
       run: |
         TAG=${GITHUB_REF}
