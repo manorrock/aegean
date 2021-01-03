@@ -25,14 +25,14 @@ jobs:
         TAG=${GITHUB_REF}
         INDEX=${TAG%v*}
         VERSION=${TAG:${#INDEX}}
-        docker build -f src/main/docker/Dockerfile.amd64 -t manorrock/aegean:amd64-$VERSION .
+        docker build -f Dockerfile.amd64 -t manorrock/aegean:amd64-$VERSION .
         docker push manorrock/aegean:amd64-$VERSION
     - name: Build arm32v6 image
       run: |
         TAG=${GITHUB_REF}
         INDEX=${TAG%v*}
         VERSION=${TAG:${#INDEX}}
-        docker build -f src/main/docker/Dockerfile.arm32v6 -t manorrock/aegean:arm32v6-$VERSION .
+        docker build -f Dockerfile.arm32v6 -t manorrock/aegean:arm32v6-$VERSION .
         docker push manorrock/aegean:arm32v6-$VERSION
     - name: Push Docker manifest
       run: |

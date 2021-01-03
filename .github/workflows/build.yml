@@ -21,11 +21,11 @@ jobs:
         password: ${{ secrets.DOCKER_PASSWORD }}
     - name: Build amd64 image
       run: |
-        docker build -f src/main/docker/Dockerfile.amd64 -t manorrock/aegean:amd64-latest .
+        docker build -f Dockerfile.amd64 -t manorrock/aegean:amd64-latest .
         docker push manorrock/aegean:amd64-latest
     - name: Build arm32v6 image
       run: |
-        docker build -f src/main/docker/Dockerfile.arm32v6 -t manorrock/aegean:arm32v6-latest .
+        docker build -f Dockerfile.arm32v6 -t manorrock/aegean:arm32v6-latest .
         docker push manorrock/aegean:arm32v6-latest
     - name: Push Docker manifest
       run: |
