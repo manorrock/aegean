@@ -33,11 +33,11 @@ warning: You appear to have cloned an empty repository.
 
 Congratulations you are now running Manorrock Aegean!
 
-## Testing SNAPSHOT versions
+## Testing our development version
 
-Upon every build we push a SNAPSHOT version to Docker Hub. If you want to give
-the version under development a test drive use `snapshot` as the version for the
-instructions above.
+Upon every build we push our development version to Docker Hub. If you want to
+give the version under development a test drive use `latest` as the version for
+the instructions above.
 
 ## Important notice
 
