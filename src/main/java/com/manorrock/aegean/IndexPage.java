@@ -25,9 +25,13 @@
  */
 package com.manorrock.aegean;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import static java.util.logging.Level.WARNING;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
@@ -35,39 +39,71 @@ import javax.inject.Inject;
 
 /**
  * The CDI bean for the index.xhtml page.
- * 
+ *
  * @author Manfred Riem (mriem@manorrock.com)
  */
 @Named(value = "index")
 @RequestScoped
 public class IndexPage {
+    
+    /**
+     * Stores the logger.
+     */
+    private static final Logger LOGGER = Logger.getLogger(IndexPage.class.getName());
 
     /**
      * Stores the application.
      */
     @Inject
     private Application application;
-    
+
     /**
      * Stores the list of repositories.
      */
-    private ArrayList<String> repositories;
-    
+    private ArrayList<Repository> repositories;
+
     /**
      * Initialize.
      */
     @PostConstruct
     public void initialize() {
         repositories = new ArrayList<>();
-        repositories.addAll(Arrays.asList(application.getRepositoriesDirectory().list()));
+        String[] names = application.getRepositoriesDirectory().list();
+        if (names != null) {
+            for (String name : names) {
+                Repository repository = new Repository();
+                repository.setName(name);
+                repository.setSize(determineSize(new File(application.getRepositoriesDirectory(), name)));
+                repositories.add(repository);
+            }
+        }
     }
-    
+
     /**
      * Get the list of repositories.
-     * 
+     *
      * @return the list of repositories.
      */
-    public List<String> getRepositories() {
+    public List<Repository> getRepositories() {
         return repositories;
+    }
+
+    /**
+     * Determine the size of the given directory.
+     *
+     * @param directory the directory.
+     * @return the size, or -1 if unable to determine.
+     */
+    private long determineSize(File directory) {
+        long size = -1;
+        try {
+            size = Files.walk(directory.toPath())
+                    .filter(p -> p.toFile().isFile())
+                    .mapToLong(p -> p.toFile().length())
+                    .sum();
+        } catch (IOException ioe) {
+            LOGGER.log(WARNING, "Unable to determine size of repository", ioe);
+        }
+        return size;
     }
 }

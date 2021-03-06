@@ -10,12 +10,13 @@
                 <h1>Repositories</h1>
                 <table>
                     <tr>
-                        <th></th><th>Name</th>
+                        <th></th><th>Name</th><th>Size</th>
                     </tr>
                     <ui:repeat value="#{index.repositories}" var="repository" varStatus="status">
                         <tr>
                             <td><h:outputText value="#{status.index + 1}"/></td>
-                            <td><h:outputText value="#{repository}"/></td>
+                            <td><h:outputText value="#{repository.name}"/></td>
+                            <td><h:outputText value="#{repository.size}"/></td>
                         </tr>
                     </ui:repeat>
                 </table>
