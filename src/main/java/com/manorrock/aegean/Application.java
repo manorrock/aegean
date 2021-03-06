@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2002-2020, Manorrock.com. All Rights Reserved.
+ *  Copyright (c) 2002-2021, Manorrock.com. All Rights Reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
  *  modification, are permitted provided that the following conditions are met:
@@ -26,7 +26,11 @@
 package com.manorrock.aegean;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import static java.util.logging.Level.INFO;
+import static java.util.logging.Level.WARNING;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
@@ -38,7 +42,7 @@ import javax.enterprise.context.ApplicationScoped;
  */
 @ApplicationScoped
 public class Application {
-    
+
     /**
      * Stores the logger.
      */
@@ -63,12 +67,45 @@ public class Application {
         if (LOGGER.isLoggable(INFO)) {
             LOGGER.log(INFO, "Repositories directory: {0}", rootDirectoryFilename);
         }
-        
+
         repositoriesDirectory = new File(rootDirectoryFilename);
 
         if (!repositoriesDirectory.exists()) {
             repositoriesDirectory.mkdirs();
         }
+    }
+
+    /**
+     * Get the repository.
+     *
+     * @param name the name.
+     * @return the repository.
+     */
+    public Repository getRepository(String name) {
+        Repository repository = new Repository();
+        repository.setName(name);
+        repository.setSize(getRepositorySize(name));
+        return repository;
+    }
+    
+    /**
+     * Get the repository size.
+     * 
+     * @param name the name of the repository.
+     * @return the size.
+     */
+    public long getRepositorySize(String name) {
+        Path directory = repositoriesDirectory.toPath().resolve(name);
+        long size = -1;
+        try {
+            size = Files.walk(directory)
+                    .filter(p -> p.toFile().isFile())
+                    .mapToLong(p -> p.toFile().length())
+                    .sum();
+        } catch (IOException ioe) {
+            LOGGER.log(WARNING, "Unable to determine size of repository", ioe);
+        }
+        return size;
     }
 
     /**
