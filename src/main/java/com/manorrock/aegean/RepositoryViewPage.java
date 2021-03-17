@@ -25,9 +25,11 @@
  */
 package com.manorrock.aegean;
 
+import static com.sun.faces.facelets.util.Path.context;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.annotation.PostConstruct;
@@ -35,6 +37,7 @@ import javax.inject.Named;
 import javax.enterprise.context.Dependent;
 import javax.faces.annotation.RequestParameterMap;
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
@@ -56,25 +59,45 @@ public class RepositoryViewPage {
     private Application application;
 
     /**
-     * Stores the name.
+     * Stores the clone URL.
      */
-    @RequestParameterMap
-    @Inject
-    private Map parameterMap;
-    
+    private String cloneUrl;
+
     /**
      * Stores the commits.
      */
     private List<RevCommit> commits;
 
     /**
+     * Stores the name.
+     */
+    @RequestParameterMap
+    @Inject
+    private Map parameterMap;
+
+    /**
      * Stores the repository.
      */
     private Repository repository;
-    
+
+    /**
+     * Stores the request.
+     */
+    @Inject
+    private HttpServletRequest request;
+
+    /**
+     * Get the clone URL.
+     *
+     * @return the clone URL.
+     */
+    public String getCloneUrl() {
+        return cloneUrl;
+    }
+
     /**
      * Get the commits.
-     * 
+     *
      * @return the commits.
      */
     public List<RevCommit> getCommits() {
@@ -105,12 +128,18 @@ public class RepositoryViewPage {
             try ( RevWalk revWalk = new RevWalk(gitRepository)) {
                 ObjectId gitObjectId = gitRepository.resolve("refs/heads/master");
                 revWalk.markStart(revWalk.parseCommit(gitObjectId));
-                for(RevCommit commit : revWalk) {
+                for (RevCommit commit : revWalk) {
                     commits.add(commit);
                 }
             }
         } catch (IOException ioe) {
 
         }
+        cloneUrl = 
+                request.getScheme() + "://" +
+                request.getServerName() +
+                (request.getServerPort() == 80 ? "" : 
+                    (request.getServerPort() == 443 ? "" : ":" + request.getServerPort())) + 
+                "/repositories/" + repository.getName();
     }
 }

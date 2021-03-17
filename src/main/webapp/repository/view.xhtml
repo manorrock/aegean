@@ -13,6 +13,8 @@
         <ui:composition template="/WEB-INF/templates/template0.xhtml">
             <ui:define name="content">
                 <h1><h:outputText value="#{repositoryViewPage.repository.name}"/></h1>
+                Clone URL: <h:outputText value="#{repositoryViewPage.cloneUrl}"/> <br/>
+                <br/>
                 <ui:repeat var="commit" value="#{repositoryViewPage.commits}">
                     <h:outputText value="#{commit}"/> <br/>
                 </ui:repeat>
