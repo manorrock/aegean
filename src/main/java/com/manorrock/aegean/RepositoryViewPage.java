@@ -25,16 +25,24 @@
  */
 package com.manorrock.aegean;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.inject.Named;
 import javax.enterprise.context.Dependent;
 import javax.faces.annotation.RequestParameterMap;
 import javax.inject.Inject;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
 
 /**
  * The CDI bean for the /repository/view.xhtml page.
- * 
+ *
  * @author Manfred Riem (mriem@manorrock.com)
  */
 @Named(value = "repositoryViewPage")
@@ -46,7 +54,7 @@ public class RepositoryViewPage {
      */
     @Inject
     private Application application;
-    
+
     /**
      * Stores the name.
      */
@@ -55,24 +63,54 @@ public class RepositoryViewPage {
     private Map parameterMap;
     
     /**
+     * Stores the commits.
+     */
+    private List<RevCommit> commits;
+
+    /**
      * Stores the repository.
      */
     private Repository repository;
+    
+    /**
+     * Get the commits.
+     * 
+     * @return the commits.
+     */
+    public List<RevCommit> getCommits() {
+        return commits;
+    }
 
     /**
      * Get the repository.
-     * 
+     *
      * @return the repository.
      */
     public Repository getRepository() {
         return repository;
     }
-    
+
     /**
      * Initialize.
      */
     @PostConstruct
     public void initialize() {
         repository = application.getRepository((String) parameterMap.get("name"));
+        commits = new ArrayList<>();
+        try {
+            org.eclipse.jgit.lib.Repository gitRepository = new FileRepositoryBuilder()
+                    .setGitDir(new File(application.getRepositoriesDirectory(), repository.getName()))
+                    .findGitDir()
+                    .build();
+            try ( RevWalk revWalk = new RevWalk(gitRepository)) {
+                ObjectId gitObjectId = gitRepository.resolve("refs/heads/master");
+                revWalk.markStart(revWalk.parseCommit(gitObjectId));
+                for(RevCommit commit : revWalk) {
+                    commits.add(commit);
+                }
+            }
+        } catch (IOException ioe) {
+
+        }
     }
 }

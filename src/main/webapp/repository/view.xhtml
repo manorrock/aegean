@@ -13,6 +13,9 @@
         <ui:composition template="/WEB-INF/templates/template0.xhtml">
             <ui:define name="content">
                 <h1><h:outputText value="#{repositoryViewPage.repository.name}"/></h1>
+                <ui:repeat var="commit" value="#{repositoryViewPage.commits}">
+                    <h:outputText value="#{commit}"/> <br/>
+                </ui:repeat>
             </ui:define>
         </ui:composition>
     </body>
