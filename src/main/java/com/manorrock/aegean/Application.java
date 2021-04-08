@@ -58,17 +58,17 @@ public class Application {
      */
     @PostConstruct
     public void initialize() {
-        String rootDirectoryFilename = System.getenv("REPOSITORIES_DIRECTORY");
+        String rootDirectoryFilename = System.getenv("ROOT_DIRECTORY");
         if (rootDirectoryFilename == null) {
-            rootDirectoryFilename = System.getProperty("REPOSITORIES_DIRECTORY",
-                    System.getProperty("user.home") + "/.manorrock/aegean/repositories");
+            rootDirectoryFilename = System.getProperty("ROOT_DIRECTORY",
+                    System.getProperty("user.home") + "/.manorrock/aegean");
         }
 
         if (LOGGER.isLoggable(INFO)) {
-            LOGGER.log(INFO, "Repositories directory: {0}", rootDirectoryFilename);
+            LOGGER.log(INFO, "Base directory: {0}", rootDirectoryFilename);
         }
 
-        repositoriesDirectory = new File(rootDirectoryFilename);
+        repositoriesDirectory = new File(rootDirectoryFilename, "repositories");
 
         if (!repositoriesDirectory.exists()) {
             repositoriesDirectory.mkdirs();

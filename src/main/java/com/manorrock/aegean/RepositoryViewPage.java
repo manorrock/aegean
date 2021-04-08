@@ -25,17 +25,16 @@
  */
 package com.manorrock.aegean;
 
-import static com.sun.faces.facelets.util.Path.context;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.inject.Named;
 import javax.enterprise.context.Dependent;
 import javax.faces.annotation.RequestParameterMap;
+import javax.faces.application.Application;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import org.eclipse.jgit.lib.ObjectId;
