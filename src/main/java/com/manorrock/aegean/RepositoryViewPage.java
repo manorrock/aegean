@@ -34,7 +34,6 @@ import javax.annotation.PostConstruct;
 import javax.inject.Named;
 import javax.enterprise.context.Dependent;
 import javax.faces.annotation.RequestParameterMap;
-import javax.faces.application.Application;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import org.eclipse.jgit.lib.ObjectId;
