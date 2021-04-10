@@ -25,6 +25,7 @@
  */
 package com.manorrock.aegean;
 
+import com.manorrock.faces.converter.bytes.BytesConverter;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -56,6 +57,11 @@ public class IndexPage {
      */
     @Inject
     private Application application;
+    
+    /**
+     * Stores the bytes converter.
+     */
+    private BytesConverter bytesConverter;
 
     /**
      * Stores the list of repositories.
@@ -67,6 +73,7 @@ public class IndexPage {
      */
     @PostConstruct
     public void initialize() {
+        bytesConverter = new BytesConverter();
         repositories = new ArrayList<>();
         String[] names = application.getRepositoriesDirectory().list();
         if (names != null) {
@@ -77,6 +84,15 @@ public class IndexPage {
                 repositories.add(repository);
             }
         }
+    }
+
+    /**
+     * Get the bytes converter.
+     * 
+     * @return the bytes converter.
+     */
+    public BytesConverter getBytesConverter() {
+        return bytesConverter;
     }
 
     /**

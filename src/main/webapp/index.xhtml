@@ -18,7 +18,11 @@
                         <tr>
                             <td><h:outputText value="#{status.index + 1}"/></td>
                             <td><h:link outcome="repository/view"><f:param name="name" value="#{repository.name}"/><h:outputText value="#{repository.name}"/></h:link></td>
-                            <td><h:outputText value="#{repository.size}"/></td>
+                            <td>
+                                <h:outputText value="#{repository.size}">
+                                    <f:converter binding="#{index.bytesConverter}"/>
+                                </h:outputText>
+                            </td>
                         </tr>
                     </ui:repeat>
                 </table>

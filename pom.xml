@@ -39,6 +39,11 @@
     </build>
     <dependencies>
         <dependency>
+            <groupId>com.manorrock.faces.converter</groupId>
+            <artifactId>manorrock-faces-converter-bytes</artifactId>
+            <version>21.4.0-legacy</version>
+        </dependency>
+        <dependency>
             <groupId>org.eclipse.jgit</groupId>
             <artifactId>org.eclipse.jgit.http.server</artifactId>
             <version>5.10.0.202012080955-r</version>
