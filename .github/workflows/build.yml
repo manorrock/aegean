@@ -15,27 +15,3 @@ jobs:
         java-version: 11
     - name: Build with Maven
       run: mvn -B package
-    - name: Login to Docker Hub
-      uses: azure/docker-login@v1
-      with:
-        username: ${{ secrets.DOCKER_USERNAME }}
-        password: ${{ secrets.DOCKER_PASSWORD }}
-    - name: Build amd64 image
-      run: |
-        docker build -f Dockerfile.amd64 -t manorrock/aegean:amd64-latest .
-        docker push manorrock/aegean:amd64-latest
-    - name: Build arm32v6 image
-      run: |
-        docker build -f Dockerfile.arm32v6 -t manorrock/aegean:arm32v6-latest .
-        docker push manorrock/aegean:arm32v6-latest
-    - name: Push Docker manifest
-      run: |
-        export DOCKER_CLI_EXPERIMENTAL=enabled
-        docker manifest create manorrock/aegean:latest \
-          manorrock/aegean:amd64-latest \
-          manorrock/aegean:arm32v6-latest
-        docker manifest annotate manorrock/aegean:latest \
-          manorrock/aegean:amd64-latest --os linux --arch amd64
-        docker manifest annotate manorrock/aegean:latest \
-          manorrock/aegean:arm32v6-latest --os linux --arch arm
-        docker manifest push manorrock/aegean:latest

@@ -1,3 +1,0 @@
-FROM manorrock/tomcat:arm32v6-9
-ENV ROOT_DIRECTORY /mnt
-COPY target/aegean.war /usr/local/tomcat/webapps/ROOT.war
