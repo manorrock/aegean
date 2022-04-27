@@ -2,6 +2,11 @@
 
 This project delivers a HTTP-based Git repository server.
 
+## Deploy the WAR file
+
+Deploy the WAR file on your Servlet container / application server as per the
+instructions of your vendor.
+
 ## Verify the server is up and running
 
 To verify the container is up and running execute the command below:
