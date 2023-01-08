@@ -1,4 +1,4 @@
-FROM eclipse-temurin:11
+FROM eclipse-temurin:17
 RUN cd /opt && \
     curl --insecure -L -O https://archive.apache.org/dist/tomcat/tomcat-9/v9.0.43/bin/apache-tomcat-9.0.43.tar.gz && \
     tar xfvz apache-tomcat-9.0.43.tar.gz && \
