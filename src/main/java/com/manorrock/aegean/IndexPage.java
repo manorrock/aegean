@@ -25,7 +25,6 @@
  */
 package com.manorrock.aegean;
 
-import com.manorrock.faces.converter.bytes.BytesConverter;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
