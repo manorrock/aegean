@@ -1,9 +1,9 @@
 FROM eclipse-temurin:17
 RUN cd /opt && \
-    curl --insecure -L -O https://archive.apache.org/dist/tomcat/tomcat-9/v9.0.43/bin/apache-tomcat-9.0.43.tar.gz && \
-    tar xfvz apache-tomcat-9.0.43.tar.gz && \
-    mv apache-tomcat-9.0.43 tomcat && \
-    rm apache-tomcat-9.0.43.tar.gz && \
+    curl --insecure -L -O https://archive.apache.org/dist/tomcat/tomcat-9/v9.0.71/bin/apache-tomcat-9.0.71.tar.gz && \
+    tar xfvz apache-tomcat-9.0.71.tar.gz && \
+    mv apache-tomcat-9.0.71 tomcat && \
+    rm apache-tomcat-9.0.71.tar.gz && \
     rm -rf tomcat/webapps/*docs* && \
     rm -rf tomcat/webapps/*examples* && \
     rm -rf tomcat/webapps/*manager* && \
