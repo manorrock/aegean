@@ -24,15 +24,3 @@ jobs:
       with:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
-    - name: Build amd64 image
-      run: |
-        docker build -f Dockerfile -t manorrock/aegean:amd64-latest .
-        docker push manorrock/aegean:amd64-latest
-    - name: Push Docker manifest
-      run: |
-        export DOCKER_CLI_EXPERIMENTAL=enabled
-        docker manifest create manorrock/aegean:latest \
-          manorrock/aegean:amd64-latest
-        docker manifest annotate manorrock/aegean:latest \
-          manorrock/aegean:amd64-latest --os linux --arch amd64
-        docker manifest push manorrock/aegean:latest
