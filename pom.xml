@@ -15,21 +15,32 @@
         <name>Manorrock.com</name>
         <url>http://www.manorrock.com</url>
     </organization>
+    <properties>
+        <cdi.version>2.0.2</cdi.version>
+        <servlet.version>4.0.4</servlet.version>
+        <java.version>17</java.version>
+        <jgit.version>6.5.0.202303070854-r</jgit.version>
+        <maven-compiler-plugin.version>3.11.0</maven-compiler-plugin.version>
+        <maven-war-plugin.version>3.3.2</maven-war-plugin.version>
+        <mojarra.version>2.3.18</mojarra.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <weld.version>3.1.9.Final</weld.version>
+    </properties>
     <build>
         <finalName>aegean</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.10.1</version>
+                <version>${maven-compiler-plugin.version}</version>
                 <configuration>
-                    <release>17</release>
+                    <release>${java.version}</release>
                 </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
-                <version>3.3.2</version>
+                <version>${maven-war-plugin.version}</version>
                 <configuration>
                     <failOnMissingWebXml>false</failOnMissingWebXml>
                 </configuration>
@@ -37,37 +48,39 @@
         </plugins>
     </build>
     <dependencies>
+        <!-- see https://git.eclipse.org/r/plugins/gitiles/jgit/jgit -->
         <dependency>
             <groupId>org.eclipse.jgit</groupId>
             <artifactId>org.eclipse.jgit.http.server</artifactId>
-            <version>6.4.0.202211300538-r</version>
+            <version>${jgit.version}</version>
             <scope>compile</scope>
         </dependency>
+        <!-- see https://github.com/jakartaee/servlet -->
         <dependency>
             <groupId>jakarta.servlet</groupId>
             <artifactId>jakarta.servlet-api</artifactId>
-            <version>4.0.4</version>
+            <version>${servlet.version}</version>
             <scope>provided</scope>
         </dependency>
+        <!-- see https://github.com/jakartaee/cdi -->
         <dependency>
             <groupId>jakarta.enterprise</groupId>
             <artifactId>jakarta.enterprise.cdi-api</artifactId>
-            <version>2.0.2</version>
+            <version>${cdi.version}</version>
             <scope>provided</scope>
         </dependency>
+        <!-- see https://github.com/weld -->
         <dependency>
             <groupId>org.jboss.weld.servlet</groupId>
             <artifactId>weld-servlet-shaded</artifactId>
-            <version>3.1.9.Final</version>
+            <version>${weld.version}</version>
             <scope>runtime</scope>
         </dependency>
+        <!-- see https://github.com/eclipse-ee4j/mojarra -->
         <dependency>
             <groupId>org.glassfish</groupId>
             <artifactId>jakarta.faces</artifactId>
-            <version>2.3.18</version>
+            <version>${mojarra.version}</version>
         </dependency>
     </dependencies>
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
 </project>
