@@ -124,10 +124,15 @@ public class RepositoryViewPage {
                     .findGitDir()
                     .build();
             try ( RevWalk revWalk = new RevWalk(gitRepository)) {
-                ObjectId gitObjectId = gitRepository.resolve("refs/heads/master");
-                revWalk.markStart(revWalk.parseCommit(gitObjectId));
-                for (RevCommit commit : revWalk) {
-                    commits.add(commit);
+                ObjectId gitObjectId = gitRepository.resolve(gitRepository.getBranch());
+                if (gitObjectId == null) {
+                    gitObjectId = gitRepository.resolve(gitRepository.getFullBranch());
+                }
+                if (gitObjectId != null) {
+                    revWalk.markStart(revWalk.parseCommit(gitObjectId));
+                    for (RevCommit commit : revWalk) {
+                        commits.add(commit);
+                    }
                 }
             }
         } catch (IOException ioe) {

@@ -21,7 +21,7 @@
         <jgit.version>6.5.0.202303070854-r</jgit.version>
         <maven-compiler-plugin.version>3.11.0</maven-compiler-plugin.version>
         <maven-war-plugin.version>3.3.2</maven-war-plugin.version>
-        <mojarra.version>2.3.19</mojarra.version>
+        <mojarra.version>2.3.18</mojarra.version>
         <weld.version>3.1.9.Final</weld.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <servlet.version>4.0.4</servlet.version>
@@ -55,13 +55,6 @@
             <version>${jgit.version}</version>
             <scope>compile</scope>
         </dependency>
-        <!-- see https://github.com/eclipse-ee4j/mojarra -->
-        <dependency>
-            <groupId>org.glassfish</groupId>
-            <artifactId>jakarta.faces</artifactId>
-            <version>${mojarra.version}</version>
-            <scope>compile</scope>
-        </dependency>
         <!-- see https://github.com/jakartaee/servlet -->
         <dependency>
             <groupId>jakarta.servlet</groupId>
@@ -82,6 +75,12 @@
             <artifactId>weld-servlet-shaded</artifactId>
             <version>${weld.version}</version>
             <scope>runtime</scope>
+        </dependency>
+        <!-- see https://github.com/eclipse-ee4j/mojarra -->
+        <dependency>
+            <groupId>org.glassfish</groupId>
+            <artifactId>jakarta.faces</artifactId>
+            <version>${mojarra.version}</version>
         </dependency>
     </dependencies>
 </project>
