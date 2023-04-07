@@ -32,10 +32,10 @@ import java.util.ArrayList;
 import java.util.List;
 import static java.util.logging.Level.WARNING;
 import java.util.logging.Logger;
-import javax.annotation.PostConstruct;
-import javax.inject.Named;
-import javax.enterprise.context.RequestScoped;
-import javax.inject.Inject;
+import jakarta.annotation.PostConstruct;
+import jakarta.inject.Named;
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.inject.Inject;
 
 /**
  * The CDI bean for the index.xhtml page.

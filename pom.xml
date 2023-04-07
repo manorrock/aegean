@@ -16,19 +16,46 @@
         <url>http://www.manorrock.com</url>
     </organization>
     <properties>
-        <cdi.version>2.0.2</cdi.version>
-        <java.version>19</java.version>
-        <jgit.version>6.5.0.202303070854-r</jgit.version>
+        <cdi.version>4.0.1</cdi.version>
+        <java.version>17</java.version>
+        <jgit.version>6.6.0-SNAPSHOT</jgit.version>
         <maven-compiler-plugin.version>3.11.0</maven-compiler-plugin.version>
         <maven-war-plugin.version>3.3.2</maven-war-plugin.version>
-        <mojarra.version>2.3.18</mojarra.version>
-        <weld.version>3.1.9.Final</weld.version>
+        <mojarra.version>4.0.2</mojarra.version>
+        <piranha.distribution>webprofile</piranha.distribution>
+        <piranha.version>23.1.0</piranha.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <servlet.version>4.0.4</servlet.version>
+        <servlet.version>6.0.0</servlet.version>
     </properties>
     <build>
         <finalName>aegean</finalName>
         <plugins>
+            <plugin>
+                <groupId>cloud.piranha.maven.plugins</groupId>
+                <artifactId>piranha-maven-plugin</artifactId>
+                <version>${piranha.version}</version>
+                <executions>
+                    <execution>
+                        <id>pre-integration-test</id>
+                        <phase>pre-integration-test</phase>
+                        <goals>
+                            <goal>start</goal>
+                        </goals>
+                        <configuration>
+                            <distribution>${piranha.distribution}</distribution>
+                            <httpPort>8080</httpPort>
+                            <!--<jvmArguments>-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=8000</jvmArguments>-->
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>post-integration-test</id>
+                        <phase>post-integration-test</phase>
+                        <goals>
+                            <goal>stop</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -69,18 +96,12 @@
             <version>${cdi.version}</version>
             <scope>provided</scope>
         </dependency>
-        <!-- see https://github.com/weld -->
-        <dependency>
-            <groupId>org.jboss.weld.servlet</groupId>
-            <artifactId>weld-servlet-shaded</artifactId>
-            <version>${weld.version}</version>
-            <scope>runtime</scope>
-        </dependency>
         <!-- see https://github.com/eclipse-ee4j/mojarra -->
         <dependency>
             <groupId>org.glassfish</groupId>
             <artifactId>jakarta.faces</artifactId>
             <version>${mojarra.version}</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 </project>

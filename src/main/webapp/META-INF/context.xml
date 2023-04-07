@@ -4,5 +4,5 @@
     <Resource auth="Container"
               factory="org.jboss.weld.resources.ManagerObjectFactory"
               name="BeanManager"
-              type="javax.enterprise.inject.spi.BeanManager"/>
+              type="jakarta.enterprise.inject.spi.BeanManager"/>
 </Context>
