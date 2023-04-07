@@ -17,7 +17,7 @@
     </organization>
     <properties>
         <cdi.version>2.0.2</cdi.version>
-        <java.version>19</java.version>
+        <java.version>20</java.version>
         <jgit.version>6.5.0.202303070854-r</jgit.version>
         <maven-compiler-plugin.version>3.11.0</maven-compiler-plugin.version>
         <maven-war-plugin.version>3.3.2</maven-war-plugin.version>
