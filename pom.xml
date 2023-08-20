@@ -8,7 +8,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.manorrock.aegean</groupId>
     <artifactId>aegean</artifactId>
-    <version>23.4.0-SNAPSHOT</version>
+    <version>23.8.0-SNAPSHOT</version>
     <packaging>war</packaging>
     <name>Manorrock Aegean</name>
     <organization>
@@ -17,7 +17,8 @@
     </organization>
     <properties>
         <cdi.version>2.0.2</cdi.version>
-        <java.version>20</java.version>
+        <docker-maven-plugin.version>0.42.1</docker-maven-plugin.version>
+        <java.version>17</java.version>
         <jgit.version>6.5.0.202303070854-r</jgit.version>
         <maven-compiler-plugin.version>3.11.0</maven-compiler-plugin.version>
         <maven-war-plugin.version>3.3.2</maven-war-plugin.version>
@@ -83,4 +84,46 @@
             <version>${mojarra.version}</version>
         </dependency>
     </dependencies>
+    <profiles>
+        <profile>
+            <id>docker</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>io.fabric8</groupId>
+                        <artifactId>docker-maven-plugin</artifactId>
+                        <version>${docker-maven-plugin.version}</version>
+                        <configuration>
+                            <images>
+                                <image>
+                                    <alias>aegean</alias>
+                                    <name>manorrock-aegean:%l</name>
+                                    <build>
+                                        <buildx>
+                                            <platforms>
+                                                <platform>linux/amd64</platform>
+                                                <platform>linux/arm</platform>
+                                                <platform>linux/arm64</platform>
+                                            </platforms>
+                                        </buildx>
+                                        <contextDir>${basedir}</contextDir>
+                                        <dockerFile>src/main/docker/Dockerfile</dockerFile>
+                                    </build>
+                                </image>
+                            </images>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>build</id>
+                                <phase>install</phase>
+                                <goals>
+                                    <goal>build</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>
