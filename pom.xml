@@ -97,7 +97,7 @@
                             <images>
                                 <image>
                                     <alias>aegean</alias>
-                                    <name>manorrock-aegean:%l</name>
+                                    <name>manorrock/aegean:%l</name>
                                     <build>
                                         <buildx>
                                             <platforms>
