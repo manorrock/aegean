@@ -1,6 +1,6 @@
 FROM eclipse-temurin:19
 RUN cd /opt && \
-    export TOMCAT_VERSION=9.0.73 && \
+    export TOMCAT_VERSION=9.0.80 && \
     curl --insecure -L -O https://archive.apache.org/dist/tomcat/tomcat-9/v${TOMCAT_VERSION}/bin/apache-tomcat-${TOMCAT_VERSION}.tar.gz && \
     tar xfvz apache-tomcat-${TOMCAT_VERSION}.tar.gz && \
     mv apache-tomcat-${TOMCAT_VERSION} tomcat && \
