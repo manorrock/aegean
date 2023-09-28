@@ -1,5 +1,7 @@
 # Manorrock Aegean
 
+[![build](https://github.com/manorrock/aegean/actions/workflows/build.yml/badge.svg)](https://github.com/manorrock/aegean/actions/workflows/build.yml)
+
 This project delivers a HTTP-based Git repository server.
 
 ## Deploy the WAR file
