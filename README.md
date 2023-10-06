@@ -26,6 +26,10 @@ warning: You appear to have cloned an empty repository.
 
 Congratulations you are now running Manorrock Aegean!
 
+## How do I contribute?
+
+See [Contributing](CONTRIBUTING.md)
+
 ## Important notice
 
 Note if you file issues or answer questions on the issue tracker and/or issue 
