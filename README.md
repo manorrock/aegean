@@ -9,6 +9,15 @@ This project delivers a HTTP-based Git repository server.
 Deploy the WAR file on your Servlet container / application server as per the
 instructions of your vendor.
 
+## Running using the container image from DockerHub
+
+In an empty directory of your choice use the following command line to start 
+Manorrock Aegean.
+
+```shell
+  docker run --rm -d -it -v $PWD:/mnt manorrock/aegean
+```
+
 ## Verify the server is up and running
 
 To verify the container is up and running execute the command below:
