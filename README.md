@@ -15,7 +15,7 @@ In an empty directory of your choice use the following command line to start
 Manorrock Aegean.
 
 ```shell
-  docker run --rm -d -it -v $PWD:/mnt manorrock/aegean
+  docker run --rm -d -it -p 8080:8080 -v $PWD:/mnt manorrock/aegean
 ```
 
 ## Verify the server is up and running
