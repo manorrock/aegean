@@ -23,8 +23,10 @@
  *  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  *  POSSIBILITY OF SUCH DAMAGE.
  */
-package com.manorrock.aegean;
+package com.manorrock.aegean.ui;
 
+import com.manorrock.aegean.Repository;
+import com.manorrock.aegean.Application;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
