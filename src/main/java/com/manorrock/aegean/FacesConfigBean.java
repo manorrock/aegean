@@ -25,8 +25,8 @@
  */
 package com.manorrock.aegean;
 
-import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.faces.annotation.FacesConfig;
+import javax.enterprise.context.ApplicationScoped;
+import javax.faces.annotation.FacesConfig;
 
 /**
  * The Faces configuration.

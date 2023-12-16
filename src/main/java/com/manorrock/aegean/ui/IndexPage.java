@@ -27,10 +27,6 @@ package com.manorrock.aegean.ui;
 
 import com.manorrock.aegean.Repository;
 import com.manorrock.aegean.Application;
-import jakarta.annotation.PostConstruct;
-import jakarta.enterprise.context.RequestScoped;
-import jakarta.inject.Inject;
-import jakarta.inject.Named;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -38,6 +34,10 @@ import java.util.ArrayList;
 import java.util.List;
 import static java.util.logging.Level.WARNING;
 import java.util.logging.Logger;
+import javax.annotation.PostConstruct;
+import javax.inject.Named;
+import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
 
 /**
  * The CDI bean for the index.xhtml page.
