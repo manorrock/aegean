@@ -16,18 +16,17 @@
         <url>http://www.manorrock.com</url>
     </organization>
     <properties>
-        <!-- dependencies -->
-        <jakartaee.version>10.0.0</jakartaee.version>
-        <jgit.version>6.5.0.202303070854-r</jgit.version>
-        <!-- other -->
-        <java.version>21</java.version>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <!-- plugins -->
+        <cdi.version>2.0.2</cdi.version>
         <docker-maven-plugin.version>0.42.1</docker-maven-plugin.version>
+        <jgit.version>6.5.0.202303070854-r</jgit.version>
         <maven-compiler-plugin.version>3.11.0</maven-compiler-plugin.version>
         <maven-war-plugin.version>3.3.2</maven-war-plugin.version>
-        <transformer-maven-plugin.version>0.5.0</transformer-maven-plugin.version>
+        <mojarra.version>2.3.18</mojarra.version>
+        <weld.version>3.1.9.Final</weld.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <servlet.version>4.0.4</servlet.version>
         <!-- other -->
+        <java.version>21</java.version>
     </properties>
     <build>
         <finalName>aegean</finalName>
@@ -51,7 +50,7 @@
             <plugin>
                 <groupId>org.eclipse.transformer</groupId>
                 <artifactId>transformer-maven-plugin</artifactId>
-                <version>${transformer-maven-plugin.version}</version>
+                <version>0.5.0</version>
                 <dependencies>
                     <dependency>
                         <groupId>biz.aQute.bnd</groupId>
@@ -79,16 +78,27 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>jakarta.platform</groupId>
-            <artifactId>jakarta.jakartaee-web-api</artifactId>
-            <version>${jakartaee.version}</version>
+            <groupId>jakarta.servlet</groupId>
+            <artifactId>jakarta.servlet-api</artifactId>
+            <version>${servlet.version}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>javax</groupId>
-            <artifactId>javaee-web-api</artifactId>
-            <version>8.0</version>
+            <groupId>jakarta.enterprise</groupId>
+            <artifactId>jakarta.enterprise.cdi-api</artifactId>
+            <version>${cdi.version}</version>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.weld.servlet</groupId>
+            <artifactId>weld-servlet-shaded</artifactId>
+            <version>${weld.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish</groupId>
+            <artifactId>jakarta.faces</artifactId>
+            <version>${mojarra.version}</version>
         </dependency>
     </dependencies>
     <profiles>
