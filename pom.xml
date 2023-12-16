@@ -47,54 +47,38 @@
                     <failOnMissingWebXml>false</failOnMissingWebXml>
                 </configuration>
             </plugin>
-            <plugin>
-                <groupId>org.eclipse.transformer</groupId>
-                <artifactId>transformer-maven-plugin</artifactId>
-                <version>0.5.0</version>
-                <dependencies>
-                    <dependency>
-                        <groupId>biz.aQute.bnd</groupId>
-                        <artifactId>biz.aQute.bnd</artifactId>
-                        <version>7.0.0</version>
-                    </dependency>
-                </dependencies>
-                <executions>
-                    <execution>
-                        <id>transform</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>run</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
         </plugins>
     </build>
     <dependencies>
+        <!-- see https://git.eclipse.org/r/plugins/gitiles/jgit/jgit -->
         <dependency>
             <groupId>org.eclipse.jgit</groupId>
             <artifactId>org.eclipse.jgit.http.server</artifactId>
             <version>${jgit.version}</version>
             <scope>compile</scope>
         </dependency>
+        <!-- see https://github.com/jakartaee/servlet -->
         <dependency>
             <groupId>jakarta.servlet</groupId>
             <artifactId>jakarta.servlet-api</artifactId>
             <version>${servlet.version}</version>
             <scope>provided</scope>
         </dependency>
+        <!-- see https://github.com/jakartaee/cdi -->
         <dependency>
             <groupId>jakarta.enterprise</groupId>
             <artifactId>jakarta.enterprise.cdi-api</artifactId>
             <version>${cdi.version}</version>
             <scope>provided</scope>
         </dependency>
+        <!-- see https://github.com/weld -->
         <dependency>
             <groupId>org.jboss.weld.servlet</groupId>
             <artifactId>weld-servlet-shaded</artifactId>
             <version>${weld.version}</version>
             <scope>runtime</scope>
         </dependency>
+        <!-- see https://github.com/eclipse-ee4j/mojarra -->
         <dependency>
             <groupId>org.glassfish</groupId>
             <artifactId>jakarta.faces</artifactId>
