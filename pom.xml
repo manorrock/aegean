@@ -98,7 +98,7 @@
                             <images>
                                 <image>
                                     <alias>aegean</alias>
-                                    <name>manorrock/aegean:%l</name>
+                                    <name>ghcr.io/manorrock/aegean:%l</name>
                                     <build>
                                         <buildx>
                                             <platforms>
