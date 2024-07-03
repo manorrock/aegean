@@ -34,4 +34,8 @@ jobs:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
     - name: Push to GHCR
-      run: mvn --ntp -P docker install docker:build docker:push
+      run: |
+        cd api
+        mvn --ntp -P docker install docker:build docker:push
+        cd ../ui
+        mvn --ntp -P docker install docker:build docker:push
