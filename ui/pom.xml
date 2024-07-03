@@ -32,7 +32,7 @@
         <java.version>21</java.version>
     </properties>
     <build>
-        <finalName>aegean</finalName>
+        <finalName>aegean-ui</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
