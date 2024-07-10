@@ -1,22 +1,34 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="
-            http://maven.apache.org/POM/4.0.0
-            http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
-    <groupId>com.manorrock.aegean</groupId>
-    <artifactId>project</artifactId>
-    <version>23.8.0-SNAPSHOT</version>
-    <packaging>pom</packaging>
-    <name>Manorrock Aegean - Project</name>
-    <organization>
-        <name>Manorrock.com</name>
-        <url>http://www.manorrock.com</url>
-    </organization>
-    <modules>
-        <module>repo</module>
-        <module>ui</module>
-    </modules>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="             http://maven.apache.org/POM/4.0.0             http://maven.apache.org/xsd/maven-4.0.0.xsd">
+      
+  <modelVersion>4.0.0</modelVersion>
+      
+  <groupId>com.manorrock.aegean</groupId>
+      
+  <artifactId>project</artifactId>
+      
+  <version>23.8.0-SNAPSHOT</version>
+      
+  <packaging>pom</packaging>
+      
+  <name>Manorrock Aegean - Project</name>
+      
+  <organization>
+            
+    <name>Manorrock.com</name>
+            
+    <url>http://www.manorrock.com</url>
+        
+  </organization>
+      
+  <modules>
+            
+    <module>repo</module>
+            
+    <module>ui</module>
+          
+    <module>api</module>
+      
+  </modules>
+  
 </project>
