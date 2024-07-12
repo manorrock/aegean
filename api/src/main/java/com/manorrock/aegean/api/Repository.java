@@ -25,43 +25,33 @@
  */
 package com.manorrock.aegean.api;
 
-import jakarta.ws.rs.GET;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.PathParam;
-import jakarta.ws.rs.Produces;
-import jakarta.ws.rs.core.Response;
-
 /**
- * The Repository resource.
+ * The repository.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-@Path("repository")
-public class RepositoryResource {
- 
+public class Repository {
+    
     /**
-     * Get details for the given repository.
-     * 
-     * @param name the name of the repository.
-     * @return the repository.
+     * Stores the name.
      */
-    @Produces("application/json")
-    @GET
-    @Path("{name}")
-    public Repository view(@PathParam("name") String name) {
-        Repository result = new Repository();
-        result.setName(name);
-        return result;
+    private String name;
+    
+    /**
+     * Get the name.
+     * 
+     * @return the name.
+     */
+    public String getName() {
+        return name;
     }
     
     /**
-     * List the available repositories.
+     * Set the name.
      * 
-     * @return the list of repositories.
+     * @param name the name.
      */
-    @Produces("application/json")
-    @GET
-    public Response list(){
-        return Response.ok("{}").build();
+    public void setName(String name) {
+        this.name = name;
     }
 }
