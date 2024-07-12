@@ -19,7 +19,7 @@
         <!-- other -->
         <java.version>21</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <piranha.version>24.7.0-SNAPSHOT</piranha.version>
+        <piranha.version>24.6.0</piranha.version>
         <piranha.distribution>webprofile</piranha.distribution>
         <!-- plugins -->
         <maven-compiler-plugin.version>3.12.1</maven-compiler-plugin.version>
