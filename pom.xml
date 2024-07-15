@@ -1,34 +1,56 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="             http://maven.apache.org/POM/4.0.0             http://maven.apache.org/xsd/maven-4.0.0.xsd">
-      
-  <modelVersion>4.0.0</modelVersion>
-      
-  <groupId>com.manorrock.aegean</groupId>
-      
-  <artifactId>project</artifactId>
-      
-  <version>23.8.0-SNAPSHOT</version>
-      
-  <packaging>pom</packaging>
-      
-  <name>Manorrock Aegean - Project</name>
-      
-  <organization>
-            
-    <name>Manorrock.com</name>
-            
-    <url>http://www.manorrock.com</url>
-        
-  </organization>
-      
-  <modules>
-            
-    <module>repo</module>
-            
-    <module>ui</module>
-          
-    <module>api</module>
-      
-  </modules>
-  
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.manorrock.aegean</groupId>
+    <artifactId>project</artifactId>
+    <version>23.8.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    <name>Manorrock Aegean - Project</name>
+    <organization>
+        <name>Manorrock.com</name>
+        <url>http://www.manorrock.com</url>
+    </organization>
+    <properties>
+        <maven-gpg-plugin.version>3.2.4</maven-gpg-plugin.version>
+    </properties>
+    <modules>
+        <module>repo</module>
+        <module>ui</module>
+        <module>api</module>
+    </modules>
+    <profiles>
+        <!-- 
+
+        This profile is used when releasing to Maven central.
+
+        -->
+        <profile>
+            <id>release</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <version>${maven-gpg-plugin.version}</version>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                                <configuration>
+                                    <gpgArguments>
+                                        <arg>--pinentry-mode</arg>
+                                        <arg>loopback</arg>
+                                    </gpgArguments>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>
