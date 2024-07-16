@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.manorrock.aegean</groupId>
     <artifactId>project</artifactId>
-    <version>23.8.0-SNAPSHOT</version>
+    <version>24.8.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>Manorrock Aegean - Project</name>
     <organization>
