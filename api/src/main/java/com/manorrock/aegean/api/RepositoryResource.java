@@ -25,6 +25,7 @@
  */
 package com.manorrock.aegean.api;
 
+import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
@@ -38,6 +39,16 @@ import jakarta.ws.rs.core.Response;
  */
 @Path("repository")
 public class RepositoryResource {
+    
+    /**
+     * Delete the given repository.
+     * 
+     * @param name the name of the repository.
+     */
+    @DELETE
+    @Path("{name}")
+    public void delete(@PathParam("name") String name) {
+    }
  
     /**
      * Get details for the given repository.
