@@ -34,6 +34,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.net.http.HttpResponse.BodyHandlers;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 
@@ -44,6 +45,17 @@ import org.junit.jupiter.api.Test;
  */
 class RepositoryResourceIT {
  
+    @Test
+    void testDelete() throws Exception {
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest
+                .newBuilder(new URI("http://localhost:8080/api/repository/test"))
+                .DELETE()
+                .build();
+        HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
+        assertEquals(204, response.statusCode());
+    }
+    
     @Test
     void testList() throws Exception {
         HttpClient client = HttpClient.newHttpClient();
