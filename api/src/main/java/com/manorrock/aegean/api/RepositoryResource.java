@@ -25,8 +25,10 @@
  */
 package com.manorrock.aegean.api;
 
+import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
+import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
@@ -39,6 +41,20 @@ import jakarta.ws.rs.core.Response;
  */
 @Path("repository")
 public class RepositoryResource {
+    
+    /**
+     * Create the given repository.
+     * 
+     * @param repository the repository to create.
+     * @return the created repository.
+     */
+    @PUT
+    @Consumes("application/json")
+    @Produces("application/json")
+    @Path("")
+    public Repository create(Repository repository) {
+        return repository;
+    }
     
     /**
      * Delete the given repository.
