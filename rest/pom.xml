@@ -8,10 +8,10 @@
         <version>24.8.0-SNAPSHOT</version>
     </parent>
     <groupId>com.manorrock.aegean</groupId>
-    <artifactId>api</artifactId>
+    <artifactId>aegean-rest</artifactId>
     <version>24.8.0-SNAPSHOT</version>
     <packaging>war</packaging>
-    <name>Manorrock Aegean - API</name>
+    <name>Manorrock Aegean - REST</name>
     <properties>
         <!-- dependencies -->
         <jakarta.version>10.0.0</jakarta.version>
