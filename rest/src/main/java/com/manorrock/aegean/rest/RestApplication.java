@@ -23,27 +23,16 @@
  *  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  *  POSSIBILITY OF SUCH DAMAGE.
  */
-package com.manorrock.aegean.api;
+package com.manorrock.aegean.rest;
 
-import jakarta.ws.rs.GET;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.ApplicationPath;
+import jakarta.ws.rs.core.Application;
 
 /**
- * The Ping resource.
+ * The Aegean REST application.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-@Path("ping")
-public class PingResource {
-    
-    /**
-     * Ping.
-     * 
-     * @return "OK".
-     */
-    @GET
-    public Response ping(){
-        return Response.ok("OK").build();
-    }
+@ApplicationPath("")
+public class RestApplication extends Application {
 }

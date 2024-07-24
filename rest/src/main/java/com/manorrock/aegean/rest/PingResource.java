@@ -23,35 +23,27 @@
  *  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  *  POSSIBILITY OF SUCH DAMAGE.
  */
-package com.manorrock.aegean.api;
+package com.manorrock.aegean.rest;
+
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.core.Response;
 
 /**
- * The repository.
+ * The Ping resource.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class Repository {
+@Path("ping")
+public class PingResource {
     
     /**
-     * Stores the name.
-     */
-    private String name;
-    
-    /**
-     * Get the name.
+     * Ping.
      * 
-     * @return the name.
+     * @return "OK".
      */
-    public String getName() {
-        return name;
-    }
-    
-    /**
-     * Set the name.
-     * 
-     * @param name the name.
-     */
-    public void setName(String name) {
-        this.name = name;
+    @GET
+    public Response ping(){
+        return Response.ok("OK").build();
     }
 }

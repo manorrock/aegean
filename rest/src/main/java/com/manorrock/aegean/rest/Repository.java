@@ -23,16 +23,35 @@
  *  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  *  POSSIBILITY OF SUCH DAMAGE.
  */
-package com.manorrock.aegean.api;
-
-import jakarta.ws.rs.ApplicationPath;
-import jakarta.ws.rs.core.Application;
+package com.manorrock.aegean.rest;
 
 /**
- * The Aegean REST application.
+ * The repository.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-@ApplicationPath("")
-public class AegeanApiApplication extends Application {
+public class Repository {
+    
+    /**
+     * Stores the name.
+     */
+    private String name;
+    
+    /**
+     * Get the name.
+     * 
+     * @return the name.
+     */
+    public String getName() {
+        return name;
+    }
+    
+    /**
+     * Set the name.
+     * 
+     * @param name the name.
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
 }
