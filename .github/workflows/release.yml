@@ -37,5 +37,3 @@ jobs:
       run: |
         cd repo
         mvn --ntp -P docker install docker:build docker:push
-        cd ../ui
-        mvn --ntp -P docker install docker:build docker:push
