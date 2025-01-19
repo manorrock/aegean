@@ -18,7 +18,6 @@
         <module>docker</module>
         <module>repo</module>
         <module>rest</module>
-        <module>ui</module>
     </modules>
     <profiles>
         <!-- 
