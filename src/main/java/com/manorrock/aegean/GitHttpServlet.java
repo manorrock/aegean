@@ -56,7 +56,7 @@ public class GitHttpServlet extends HttpServlet {
      * Stores the application.
      */
     @Inject
-    private Application application;
+    private GitApplication application;
 
     /**
      * Stores the Git filter.

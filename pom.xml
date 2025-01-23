@@ -4,21 +4,115 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.manorrock.aegean</groupId>
     <artifactId>project</artifactId>
-    <version>24.8.0-SNAPSHOT</version>
-    <packaging>pom</packaging>
-    <name>Manorrock Aegean - Project</name>
+    <version>25.2.0-SNAPSHOT</version>
+    <packaging>war</packaging>
+    <name>Manorrock Aegean</name>
     <organization>
         <name>Manorrock.com</name>
         <url>http://www.manorrock.com</url>
     </organization>
     <properties>
+        <!-- dependencies -->
+        <cdi.version>2.0.2</cdi.version>
+        <jgit.version>6.10.0.202406032230-r</jgit.version>
+        <weld.version>3.1.9.Final</weld.version>
+        <servlet.version>4.0.4</servlet.version>
+        <!-- plugins -->
+        <docker-maven-plugin.version>0.45.1</docker-maven-plugin.version>
+        <maven-compiler-plugin.version>3.13.0</maven-compiler-plugin.version>
         <maven-gpg-plugin.version>3.2.4</maven-gpg-plugin.version>
+        <maven-war-plugin.version>3.4.0</maven-war-plugin.version>
+        <!-- other -->
+        <java.version>21</java.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
-    <modules>
-        <module>docker</module>
-        <module>repo</module>
-    </modules>
+    <dependencies>
+        <dependency>
+            <groupId>org.eclipse.jgit</groupId>
+            <artifactId>org.eclipse.jgit.http.server</artifactId>
+            <version>${jgit.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.servlet</groupId>
+            <artifactId>jakarta.servlet-api</artifactId>
+            <version>${servlet.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.enterprise</groupId>
+            <artifactId>jakarta.enterprise.cdi-api</artifactId>
+            <version>${cdi.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.weld.servlet</groupId>
+            <artifactId>weld-servlet-shaded</artifactId>
+            <version>${weld.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+    </dependencies>
+    <build>
+        <finalName>aegean</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven-compiler-plugin.version}</version>
+                <configuration>
+                    <release>${java.version}</release>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>${maven-war-plugin.version}</version>
+                <configuration>
+                    <failOnMissingWebXml>false</failOnMissingWebXml>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
     <profiles>
+        <profile>
+            <id>docker</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>io.fabric8</groupId>
+                        <artifactId>docker-maven-plugin</artifactId>
+                        <version>${docker-maven-plugin.version}</version>
+                        <configuration>
+                            <images>
+                                <image>
+                                    <alias>persian</alias>
+                                    <name>ghcr.io/manorrock/aegean:%l</name>
+                                    <build>
+                                        <buildx>
+                                            <platforms>
+                                                <platform>linux/amd64</platform>
+                                                <platform>linux/arm64</platform>
+                                            </platforms>
+                                        </buildx>
+                                        <contextDir>${basedir}</contextDir>
+                                        <dockerFile>src/main/docker/Dockerfile</dockerFile>
+                                    </build>
+                                </image>
+                            </images>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>build</id>
+                                <phase>install</phase>
+                                <goals>
+                                    <goal>build</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
         <!-- 
 
         This profile is used when releasing to Maven central.
