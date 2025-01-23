@@ -37,12 +37,12 @@ import javax.enterprise.context.ApplicationScoped;
  * @author Manfred Riem (mriem@manorrock.com)
  */
 @ApplicationScoped
-public class Application {
+public class GitApplication {
 
     /**
      * Stores the logger.
      */
-    private static final Logger LOGGER = Logger.getLogger(Application.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(GitApplication.class.getName());
 
     /**
      * Stores the repositories directory.
