@@ -4,15 +4,10 @@
 
 This project delivers a HTTP-based Git repository server.
 
-## Deploy the WAR file
-
-Deploy the WAR file on your Servlet container / application server as per the
-instructions of your vendor.
-
-## Running using the container image from DockerHub
+## Start the server
 
 In an empty directory of your choice use the following command line to start 
-Manorrock Aegean.
+Manorrock Aegean:
 
 ```shell
   docker run --rm -d -it -p 8080:8080 -v $PWD:/mnt ghcr.io/manorrock/aegean
