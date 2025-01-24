@@ -30,7 +30,7 @@ import java.io.IOException;
 import static java.util.logging.Level.FINEST;
 import static java.util.logging.Level.INFO;
 import java.util.logging.Logger;
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.storage.file.FileRepositoryBuilder;

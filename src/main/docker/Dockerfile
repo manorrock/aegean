@@ -1,7 +1,7 @@
 FROM eclipse-temurin:21
 RUN cd /opt && \
-    export TOMCAT_VERSION=9.0.90 && \
-    curl --insecure -L -O https://archive.apache.org/dist/tomcat/tomcat-9/v${TOMCAT_VERSION}/bin/apache-tomcat-${TOMCAT_VERSION}.tar.gz && \
+    export TOMCAT_VERSION=11.0.2 && \
+    curl --insecure -L -O https://archive.apache.org/dist/tomcat/tomcat-11/v${TOMCAT_VERSION}/bin/apache-tomcat-${TOMCAT_VERSION}.tar.gz && \
     tar xfvz apache-tomcat-${TOMCAT_VERSION}.tar.gz && \
     mv apache-tomcat-${TOMCAT_VERSION} tomcat && \
     rm apache-tomcat-${TOMCAT_VERSION}.tar.gz && \
@@ -12,5 +12,5 @@ RUN cd /opt && \
 CMD ["/opt/tomcat/bin/catalina.sh", "run"]
 EXPOSE 8080
 WORKDIR /mnt
-ENV ROOT_DIRECTORY /mnt
+ENV ROOT_DIRECTORY=/mnt
 COPY target/aegean.war /opt/tomcat/webapps/ROOT.war

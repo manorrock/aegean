@@ -28,8 +28,8 @@ package com.manorrock.aegean;
 import java.io.File;
 import static java.util.logging.Level.INFO;
 import java.util.logging.Logger;
-import javax.annotation.PostConstruct;
-import javax.enterprise.context.ApplicationScoped;
+import jakarta.annotation.PostConstruct;
+import jakarta.enterprise.context.ApplicationScoped;
 
 /**
  * The one and only application bean.
