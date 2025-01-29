@@ -18,7 +18,9 @@ jobs:
         distribution: 'temurin'
         java-version: 21
     - name: Build with Maven
-      run: mvn -B --ntp package
+      run: |
+        mvn -B --ntp install
+        mvn -B --ntp -P docker docker:build
     - name: Login to GHCR
       if: github.ref == 'refs/heads/current'
       uses: docker/login-action@v2
@@ -29,5 +31,4 @@ jobs:
     - name: Push to GHCR
       if: github.ref == 'refs/heads/current'
       run: |
-        cd repo
-        mvn --ntp -P docker install docker:build docker:push
+        mvn -B --ntp -P docker install docker:build docker:push
