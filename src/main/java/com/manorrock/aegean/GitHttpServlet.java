@@ -103,6 +103,20 @@ public class GitHttpServlet extends HttpServlet {
 
         filter = new GitFilter();
         filter.setRepositoryResolver(repositoryResolver);
+
+        /*
+         * Limit the upload size to maxUploadSize, if maxUploadSize is set to a positive value.
+         */
+        filter.addUploadPackFilter((request, response, chain) -> {
+            if (request.getContentLengthLong() > maxUploadSize && maxUploadSize > 0) {
+                ((HttpServletResponse) response).sendError(
+                    HttpServletResponse.SC_REQUEST_ENTITY_TOO_LARGE, 
+                "Upload size exceeds the maximum allowed size which is " + maxUploadSize + " bytes.");
+            } else {
+                chain.doFilter(request, response);
+            }
+        });
+
         filter.init(new FilterConfig() {
             @Override
             public String getFilterName() {
