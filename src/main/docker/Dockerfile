@@ -1,16 +1,13 @@
 FROM eclipse-temurin:21
-RUN cd /opt && \
-    export TOMCAT_VERSION=11.0.2 && \
-    curl --insecure -L -O https://archive.apache.org/dist/tomcat/tomcat-11/v${TOMCAT_VERSION}/bin/apache-tomcat-${TOMCAT_VERSION}.tar.gz && \
-    tar xfvz apache-tomcat-${TOMCAT_VERSION}.tar.gz && \
-    mv apache-tomcat-${TOMCAT_VERSION} tomcat && \
-    rm apache-tomcat-${TOMCAT_VERSION}.tar.gz && \
-    rm -rf tomcat/webapps/*docs* && \
-    rm -rf tomcat/webapps/*examples* && \
-    rm -rf tomcat/webapps/*manager* && \
-    rm -rf tomcat/webapps/ROOT*
-CMD ["/opt/tomcat/bin/catalina.sh", "run"]
+RUN apt-get update && apt-get install -y unzip && \
+    cd /opt && \
+    export GLASSFISH_VERSION=7.0.21 && \
+    curl --insecure -L -O https://download.eclipse.org/ee4j/glassfish/glassfish-${GLASSFISH_VERSION}.zip && \
+    unzip glassfish-${GLASSFISH_VERSION}.zip && \
+    mv glassfish7 glassfish && \
+    rm glassfish-${GLASSFISH_VERSION}.zip
+CMD ["/opt/glassfish/bin/asadmin", "start-domain", "-v"]
 EXPOSE 8080
 WORKDIR /mnt
 ENV ROOT_DIRECTORY=/mnt
-COPY target/aegean.war /opt/tomcat/webapps/ROOT.war
+COPY target/aegean.war /opt/glassfish/glassfish/domains/domain1/autodeploy/aegean.war

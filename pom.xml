@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="             http://maven.apache.org/POM/4.0.0             http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="             http://maven.apache.org/POM/4.0.0             http://www.maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.manorrock.aegean</groupId>
     <artifactId>project</artifactId>
@@ -14,7 +14,6 @@
     <properties>
         <!-- dependencies -->
         <jgit.version>7.1.0.202411261347-r</jgit.version>
-        <weld.version>6.0.0.Final</weld.version>
         <!-- plugins -->
         <docker-maven-plugin.version>0.45.1</docker-maven-plugin.version>
         <maven-compiler-plugin.version>3.13.0</maven-compiler-plugin.version>
@@ -32,10 +31,28 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>org.jboss.weld.servlet</groupId>
-            <artifactId>weld-servlet-shaded</artifactId>
-            <version>${weld.version}</version>
-            <scope>compile</scope>
+            <groupId>jakarta.platform</groupId>
+            <artifactId>jakarta.jakartaee-web-api</artifactId>
+            <version>10.0.0</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>5.11.4</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>5.11.4</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.microsoft.playwright</groupId>
+            <artifactId>playwright</artifactId>
+            <version>1.49.0</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
     <build>
@@ -71,7 +88,7 @@
                         <configuration>
                             <images>
                                 <image>
-                                    <alias>persian</alias>
+                                    <alias>aegean</alias>
                                     <name>ghcr.io/manorrock/aegean:%l</name>
                                     <build>
                                         <buildx>
@@ -83,15 +100,50 @@
                                         <contextDir>${basedir}</contextDir>
                                         <dockerFile>src/main/docker/Dockerfile</dockerFile>
                                     </build>
+                                    <run>
+                                        <ports>
+                                            <port>8080:8080</port>
+                                        </ports>
+                                        <wait>
+                                            <time>15000</time>
+                                        </wait>
+                                    </run>
                                 </image>
                             </images>
                         </configuration>
                         <executions>
                             <execution>
                                 <id>build</id>
-                                <phase>install</phase>
+                                <phase>pre-integration-test</phase>
                                 <goals>
                                     <goal>build</goal>
+                                </goals>
+                            </execution>
+                            <execution>
+                                <id>start-container</id>
+                                <phase>pre-integration-test</phase>
+                                <goals>
+                                    <goal>start</goal>
+                                </goals>
+                            </execution>
+                            <execution>
+                                <id>stop-container</id>
+                                <phase>post-integration-test</phase>
+                                <goals>
+                                    <goal>stop</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-failsafe-plugin</artifactId>
+                        <version>2.22.2</version>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>integration-test</goal>
+                                    <goal>verify</goal>
                                 </goals>
                             </execution>
                         </executions>
