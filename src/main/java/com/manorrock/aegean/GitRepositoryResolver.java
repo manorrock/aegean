@@ -27,8 +27,6 @@ package com.manorrock.aegean;
 
 import java.io.File;
 import java.io.IOException;
-import static java.util.logging.Level.FINEST;
-import static java.util.logging.Level.INFO;
 import java.util.logging.Logger;
 import jakarta.servlet.http.HttpServletRequest;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
@@ -57,56 +55,82 @@ public class GitRepositoryResolver extends FileResolver<HttpServletRequest> {
     /**
      * Constructor.
      *
+     * Initializes the GitRepositoryResolver with the specified Git directory.
+     * 
      * @param gitDirectory the Git directory.
      */
     public GitRepositoryResolver(File gitDirectory) {
         super(gitDirectory, true);
         this.rootDirectory = gitDirectory;
     }
-    
+
+    /**
+     * Open the repository.
+     * 
+     * @param request the HTTP servlet request.
+     * @param name    the repository name.
+     * @return the repository.
+     * @throws RepositoryNotFoundException if the repository is not found.
+     * @throws ServiceNotEnabledException  if the service is not enabled.
+     */
     @Override
     public Repository open(HttpServletRequest request, String name)
             throws RepositoryNotFoundException, ServiceNotEnabledException {
+
         Repository repository;
-        if (LOGGER.isLoggable(FINEST)) {
-            LOGGER.entering(GitRepositoryResolver.class.getName(), "open");
-        }
-        String directoryName = name;
-        if (directoryName.contains("/")) {
-            directoryName = directoryName.substring(0, directoryName.indexOf('/'));
-        }
-        if (!directoryName.endsWith(".git")) {
-            directoryName = directoryName + ".git";
-        }
-        File directory = new File(rootDirectory, directoryName);
-        if (!directory.exists()) {
-            if (LOGGER.isLoggable(INFO)) {
-                LOGGER.log(INFO, "Creating repository: {0}", directoryName);
+        try {
+            String directoryName = name;
+            if (directoryName.contains("/")) {
+                directoryName = directoryName.substring(0, directoryName.indexOf('/'));
             }
-            try {
-                /*
-                 * Create the repository on the fly.
-                */
-                Repository fileRepository = new FileRepositoryBuilder()
-                        .setGitDir(directory)
-                        .findGitDir()
-                        .build();
-                fileRepository.create(true);
-                
-                /*
-                 * Make sure anonymous push is possible.
-                */
-                fileRepository.getConfig().setBoolean("http", null, "receivepack", true);
-                fileRepository.getConfig().save();
-                fileRepository.close();
-            } catch (IOException ioe) {
-                throw new RepositoryNotFoundException(directory, ioe);
+            if (!directoryName.endsWith(".git")) {
+                directoryName = directoryName + ".git";
             }
-        }
-        repository = super.open(request, name);
-        if (LOGGER.isLoggable(FINEST)) {
-            LOGGER.exiting(GitRepositoryResolver.class.getName(), "open", repository);
+            File directory = new File(rootDirectory, directoryName);
+
+            if (!directory.exists()) {
+                String adminUsername = request.getServletContext().getInitParameter("adminUsername");
+
+                if (adminUsername == null) {
+                    LOGGER.info("Creating repository anonymously");
+                    createRepository(directory, directoryName);
+                } else if (request.getRemoteUser() != null && request.isUserInRole("admin")) {
+                    LOGGER.info("Creating repository using admin role");
+                    createRepository(directory, directoryName);
+                } else {
+                    throw new ServiceNotEnabledException("Only admin users can create new repositories.");
+                }
+            }
+
+            repository = super.open(request, name);
+        } catch (RepositoryNotFoundException | ServiceNotEnabledException e) {
+            LOGGER.severe("Error opening repository: " + e.getMessage());
+            throw e;
         }
         return repository;
+    }
+
+    /**
+     * Create the repository
+     *  
+     * @param directory     the repository directory.
+     * @param directoryName the repository directory name.
+     * @throws RepositoryNotFoundException if the repository cannot be created.
+     */
+    private void createRepository(File directory, String directoryName) throws RepositoryNotFoundException {
+        try {
+            Repository fileRepository = new FileRepositoryBuilder()
+                    .setGitDir(directory)
+                    .findGitDir()
+                    .build();
+            fileRepository.create(true);
+            fileRepository.getConfig().setBoolean("http", null, "receivepack", true);
+            fileRepository.getConfig().setBoolean("http", null, "uploadpack", true);
+            fileRepository.getConfig().save();
+            fileRepository.close();
+        } catch (IOException ioe) {
+            LOGGER.severe("Failed to create repository: " + directoryName);
+            throw new RepositoryNotFoundException(directory, ioe);
+        }
     }
 }

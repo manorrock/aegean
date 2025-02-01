@@ -18,7 +18,7 @@ Manorrock Aegean:
 To verify the container is up and running execute the command below:
 
 ```
-git clone http://localhost:8080/repositories/test.git
+git clone http://localhost:8080/aegean/repositories/test.git
 ```
 
 You should see output similar to below:
@@ -30,6 +30,20 @@ warning: You appear to have cloned an empty repository.
 
 Congratulations you are now running Manorrock Aegean!
 
+## How do I prevent anonymous users from creating new repositories?
+
+To prevent anonymous users from creating new repositories you can set the AEGEAN_ADMIN_USERNAME and AEGEAN_ADMIN_PASSWORD environment variables.
+
+```shell
+  docker run --rm -d -it -p 8080:8080 -v $PWD:/mnt -e AEGEAN_ADMIN_USERNAME=admin -e AEGEAN_ADMIN_PASSWORD=adminadmin ghcr.io/manorrock/aegean
+```
+
+Note that you now need to use the -c extraHeader option with the git clone command to provide the admin credentials.
+
+```shell
+  git clone -c http.extraHeader="Authorization: Basic $(echo -n 'admin:adminadmin' | base64)" http://localhost:8080/aegean/repositories/test.git
+```
+
 ## How do I contribute?
 
 See [Contributing](CONTRIBUTING.md)
@@ -37,6 +51,15 @@ See [Contributing](CONTRIBUTING.md)
 ## Our code of Conduct
 
 See [Code of Conduct](CODE_OF_CONDUCT.md)
+
+## Technologies used
+
+1. [Eclipse JGit](https://www.eclipse.org/jgit/)
+2. [Jakarta CDI](https://jakarta.ee/specifications/cdi/)
+3. [Jakarta Servlet](https://jakarta.ee/specifications/servlet/)
+4. [Jakarta Security](https://jakarta.ee/specifications/security/)
+5. [JUnit 5](https://junit.org/junit5/)
+6. [Playwright](https://playwright.dev/)
 
 ## Important notice
 

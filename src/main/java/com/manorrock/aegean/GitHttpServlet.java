@@ -69,31 +69,27 @@ public class GitHttpServlet extends HttpServlet {
     private transient GitRepositoryResolver repositoryResolver;
 
     /**
-     * Stores the maximum upload size.
+     * Stores the maximum upload size (defaults to 512 MB).
      */
-    private long maxUploadSize = 512L * 1024 * 1024; // Default to 512 MB
+    private long maxUploadSize = 512L * 1024 * 1024;
 
     /**
      * Destroy the servlet.
      */
     @Override
     public void destroy() {
-        LOGGER.entering(GitHttpServlet.class.getName(), "destroy");
         filter.destroy();
-        LOGGER.exiting(GitHttpServlet.class.getName(), "destroy");
     }
 
     @Override
     public void init(final ServletConfig config) throws ServletException {
-        LOGGER.entering(GitHttpServlet.class.getName(), "init");
-
-        // Retrieve maxUploadSize from servlet configuration
+        
         String maxUploadSizeParam = config.getInitParameter("maxUploadSize");
         if (maxUploadSizeParam != null) {
             try {
                 maxUploadSize = Long.parseLong(maxUploadSizeParam);
             } catch (NumberFormatException e) {
-                LOGGER.warning("Invalid maxUploadSize parameter, using default value (512 MB)");
+                LOGGER.warning("Invalid maxUploadSize parameter, using 512 MB as default value");
             }
         }
 
@@ -103,10 +99,6 @@ public class GitHttpServlet extends HttpServlet {
 
         filter = new GitFilter();
         filter.setRepositoryResolver(repositoryResolver);
-
-        /*
-         * Limit the upload size to maxUploadSize, if maxUploadSize is set to a positive value.
-         */
         filter.addUploadPackFilter((request, response, chain) -> {
             if (request.getContentLengthLong() > maxUploadSize && maxUploadSize > 0) {
                 ((HttpServletResponse) response).sendError(
@@ -138,34 +130,17 @@ public class GitHttpServlet extends HttpServlet {
                 return config.getServletContext();
             }
         });
-
-        /*
-         * Limit the upload size to maxUploadSize, if maxUploadSize is set to a positive value.
-         */
-        filter.addUploadPackFilter((request, response, chain) -> {
-            if (request.getContentLengthLong() > maxUploadSize && maxUploadSize > 0) {
-                ((HttpServletResponse) response).sendError(
-                    HttpServletResponse.SC_REQUEST_ENTITY_TOO_LARGE, 
-                "Upload size exceeds the maximum allowed size which is " + maxUploadSize + " bytes.");
-            } else {
-                chain.doFilter(request, response);
-            }
-        });
-
-        LOGGER.exiting(GitHttpServlet.class.getName(), "init");
     }
 
     @Override
     protected void service(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        LOGGER.entering(GitHttpServlet.class.getName(), "service");
         filter.doFilter(request, response, (ServletRequest servletRequest, ServletResponse servletResponse) -> {
             if (servletRequest instanceof HttpServletRequest) {
                 HttpServletResponse httpResponse = (HttpServletResponse) servletResponse;
                 httpResponse.sendError(HttpServletResponse.SC_NOT_FOUND);
             }
         });
-        LOGGER.exiting(GitHttpServlet.class.getName(), "service");
     }
 }
