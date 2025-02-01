@@ -13,13 +13,19 @@
     </organization>
     <properties>
         <!-- dependencies -->
+        <jakarta.jakartaee-web-api.version>10.0.0</jakarta.jakartaee-web-api.version>
         <jgit.version>7.1.0.202411261347-r</jgit.version>
+        <junit.version>5.11.4</junit.version>
+        <playwright.version>1.49.0</playwright.version>
         <!-- plugins -->
         <docker-maven-plugin.version>0.45.1</docker-maven-plugin.version>
         <maven-compiler-plugin.version>3.13.0</maven-compiler-plugin.version>
+        <maven-failsafe-plugin.version>2.22.2</maven-failsafe-plugin.version>
         <maven-gpg-plugin.version>3.2.4</maven-gpg-plugin.version>
         <maven-war-plugin.version>3.4.0</maven-war-plugin.version>
         <!-- other -->
+        <adminUsername>admin</adminUsername>
+        <adminPassword>adminadmin</adminPassword>
         <java.version>21</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
@@ -33,25 +39,25 @@
         <dependency>
             <groupId>jakarta.platform</groupId>
             <artifactId>jakarta.jakartaee-web-api</artifactId>
-            <version>10.0.0</version>
+            <version>${jakarta.jakartaee-web-api.version}</version>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.microsoft.playwright</groupId>
+            <artifactId>playwright</artifactId>
+            <version>${playwright.version}</version>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
-            <version>5.11.4</version>
+            <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
-            <version>5.11.4</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.microsoft.playwright</groupId>
-            <artifactId>playwright</artifactId>
-            <version>1.49.0</version>
+            <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -105,8 +111,15 @@
                                             <port>8080:8080</port>
                                         </ports>
                                         <wait>
-                                            <time>15000</time>
+                                            <time>20000</time>
                                         </wait>
+                                        <log>
+                                            <enabled>true</enabled>
+                                        </log>
+                                        <env>
+                                            <AEGEAN_ADMIN_USERNAME>${adminUsername}</AEGEAN_ADMIN_USERNAME>
+                                            <AEGEAN_ADMIN_PASSWORD>${adminPassword}</AEGEAN_ADMIN_PASSWORD>
+                                        </env>
                                     </run>
                                 </image>
                             </images>
@@ -138,7 +151,13 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-failsafe-plugin</artifactId>
-                        <version>2.22.2</version>
+                        <version>${maven-failsafe-plugin.version}</version>
+                        <configuration>
+                            <systemPropertyVariables>
+                                <adminUsername>${adminUsername}</adminUsername>
+                                <adminPassword>${adminPassword}</adminPassword>
+                            </systemPropertyVariables>
+                        </configuration>
                         <executions>
                             <execution>
                                 <goals>
@@ -151,11 +170,6 @@
                 </plugins>
             </build>
         </profile>
-        <!-- 
-
-        This profile is used when releasing to Maven central.
-
-        -->
         <profile>
             <id>release</id>
             <build>

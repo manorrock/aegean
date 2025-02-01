@@ -10,6 +10,14 @@
         <servlet-name>Git Servlet</servlet-name>
         <url-pattern>/repositories/*</url-pattern>
     </servlet-mapping>
+    <filter>
+        <filter-name>Admin Filter</filter-name>
+        <filter-class>com.manorrock.aegean.AdminFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>Admin Filter</filter-name>
+        <url-pattern>/repositories/*</url-pattern>
+    </filter-mapping>
     <session-config>
         <session-timeout>30</session-timeout>
     </session-config>
