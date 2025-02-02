@@ -41,7 +41,7 @@ import java.util.logging.Logger;
  * The "admin" identity store.
  */
 @ApplicationScoped
-public class AdminIdentityStore implements IdentityStore {
+public class SecurityIdentityStore implements IdentityStore {
 
     /**
      * Stores the admin username.
@@ -62,7 +62,7 @@ public class AdminIdentityStore implements IdentityStore {
     /**
      * Stores the logger.
      */
-    private static final Logger LOGGER = Logger.getLogger(AdminIdentityStore.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(SecurityIdentityStore.class.getName());
 
     /**
      * Initialize the identity store.

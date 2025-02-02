@@ -11,11 +11,11 @@
         <url-pattern>/repositories/*</url-pattern>
     </servlet-mapping>
     <filter>
-        <filter-name>Admin Filter</filter-name>
-        <filter-class>com.manorrock.aegean.AdminFilter</filter-class>
+        <filter-name>Security Filter</filter-name>
+        <filter-class>com.manorrock.aegean.SecurityFilter</filter-class>
     </filter>
     <filter-mapping>
-        <filter-name>Admin Filter</filter-name>
+        <filter-name>Security Filter</filter-name>
         <url-pattern>/repositories/*</url-pattern>
     </filter-mapping>
     <session-config>
