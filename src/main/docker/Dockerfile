@@ -1,7 +1,7 @@
 FROM eclipse-temurin:21
+ARG GLASSFISH_VERSION
 RUN apt-get update && apt-get install -y unzip && \
     cd /opt && \
-    export GLASSFISH_VERSION=7.0.21 && \
     curl --insecure -L -O https://download.eclipse.org/ee4j/glassfish/glassfish-${GLASSFISH_VERSION}.zip && \
     unzip glassfish-${GLASSFISH_VERSION}.zip && \
     mv glassfish7 glassfish && \

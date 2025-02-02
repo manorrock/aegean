@@ -38,7 +38,9 @@ import java.util.Collections;
 import java.util.logging.Logger;
 
 /**
- * The "admin" identity store.
+ * The Security IdentityStore.
+ * 
+ * @author Manfred Riem (mriem@manorrock.com)
  */
 @ApplicationScoped
 public class SecurityIdentityStore implements IdentityStore {
@@ -66,19 +68,33 @@ public class SecurityIdentityStore implements IdentityStore {
 
     /**
      * Initialize the identity store.
+     * <p>
+     * This method is called after the bean's properties have been initialized.
+     * It retrieves the admin username and password from the servlet context's
+     * initialization parameters and logs the initialization status.
      */
     @PostConstruct
     public void init() {
         adminUsername = servletContext.getInitParameter("adminUsername");
         adminPassword = servletContext.getInitParameter("adminPassword");
         if (adminUsername != null && !adminUsername.isEmpty()) {
-            LOGGER.info("AdminIdentityStore initialized with adminUsername: " + adminUsername);
+            LOGGER.info("SecurityIdentityStore initialized with adminUsername: " + adminUsername);
         }
         if (adminPassword != null && !adminPassword.isEmpty()) {
-            LOGGER.info("AdminIdentityStore initialized with adminPassword: " + "********");
+            LOGGER.info("SecurityIdentityStore initialized with adminPassword: " + "********");
         }
     }
 
+    /**
+     * Validate the provided credential.
+     * <p>
+     * This method checks if the provided credential matches the admin username
+     * and password. If they match, it returns a valid CredentialValidationResult
+     * with the admin role. Otherwise, it returns a not validated result.
+     *
+     * @param credential the credential to validate
+     * @return the result of the credential validation
+     */
     @Override
     public CredentialValidationResult validate(Credential credential) {
         if (adminUsername == null || adminUsername.isEmpty() || adminPassword == null || adminPassword.isEmpty()) {

@@ -7,10 +7,7 @@ import java.util.Set;
 import java.util.logging.Logger;
 
 /**
- * The Admin Servlet Container Initializer.
- * 
- * This initializer sets the admin username and password context parameters
- * based on the environment variables or system properties AEGEAN_ADMIN_USERNAME and AEGEAN_ADMIN_PASSWORD.
+ * The Security ServletContainerInitializer.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
@@ -21,8 +18,19 @@ public class SecurityServletContainerInitializer implements ServletContainerInit
      */
     private static final Logger LOGGER = Logger.getLogger(SecurityServletContainerInitializer.class.getName());
 
+    /**
+     * Called when the application is starting up.
+     * <p>
+     * This method sets the context parameters for admin username, admin password,
+     * and anonymous access disabled based on environment variables or system
+     * properties when found.
+     * 
+     * @param classes        the set of classes
+     * @param servletContext the servlet context
+     * @throws ServletException when a servlet error occurs
+     */
     @Override
-    public void onStartup(Set<Class<?>> c, ServletContext ctx) throws ServletException {
+    public void onStartup(Set<Class<?>> classes, ServletContext servletContext) throws ServletException {
         String adminUsername = System.getenv("AEGEAN_ADMIN_USERNAME");
         if (adminUsername != null) {
             LOGGER.info("Admin username obtained from environment variable AEGEAN_ADMIN_USERNAME");
@@ -34,7 +42,7 @@ public class SecurityServletContainerInitializer implements ServletContainerInit
         }
 
         if (adminUsername != null) {
-            ctx.setInitParameter("adminUsername", adminUsername);
+            servletContext.setInitParameter("adminUsername", adminUsername);
         }
 
         String adminPassword = System.getenv("AEGEAN_ADMIN_PASSWORD");
@@ -48,7 +56,7 @@ public class SecurityServletContainerInitializer implements ServletContainerInit
         }
 
         if (adminPassword != null) {
-            ctx.setInitParameter("adminPassword", adminPassword);
+            servletContext.setInitParameter("adminPassword", adminPassword);
         }
 
         String anonymousDisabled = System.getenv("AEGEAN_ANONYMOUS_DISABLED");
@@ -57,12 +65,13 @@ public class SecurityServletContainerInitializer implements ServletContainerInit
         } else {
             anonymousDisabled = System.getProperty("com.manorrock.aegean.anonymousDisabled");
             if (anonymousDisabled != null) {
-                LOGGER.info("Anonymous access disabled obtained from system property com.manorrock.aegean.anonymousDisabled");
+                LOGGER.info(
+                        "Anonymous access disabled obtained from system property com.manorrock.aegean.anonymousDisabled");
             }
         }
 
         if (anonymousDisabled != null) {
-            ctx.setInitParameter("anonymousDisabled", anonymousDisabled);
+            servletContext.setInitParameter("anonymousDisabled", anonymousDisabled);
         }
     }
 }

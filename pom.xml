@@ -13,6 +13,7 @@
     </organization>
     <properties>
         <!-- dependencies -->
+        <glassfish.version>7.0.21</glassfish.version>
         <jakarta.jakartaee-web-api.version>10.0.0</jakarta.jakartaee-web-api.version>
         <jgit.version>7.1.0.202411261347-r</jgit.version>
         <junit.version>5.11.4</junit.version>
@@ -105,6 +106,9 @@
                                         </buildx>
                                         <contextDir>${basedir}</contextDir>
                                         <dockerFile>src/main/docker/Dockerfile</dockerFile>
+                                        <args>
+                                            <GLASSFISH_VERSION>${glassfish.version}</GLASSFISH_VERSION>
+                                        </args>
                                     </build>
                                     <run>
                                         <ports>

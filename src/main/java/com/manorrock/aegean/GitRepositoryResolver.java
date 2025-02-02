@@ -67,6 +67,10 @@ public class GitRepositoryResolver extends FileResolver<HttpServletRequest> {
     /**
      * Open the repository.
      * 
+     * This method attempts to open an existing Git repository. If the repository
+     * does not exist, it will create a new one if the user has the appropriate
+     * permissions.
+     * 
      * @param request the HTTP servlet request.
      * @param name    the repository name.
      * @return the repository.
@@ -111,8 +115,10 @@ public class GitRepositoryResolver extends FileResolver<HttpServletRequest> {
     }
 
     /**
-     * Create the repository
-     *  
+     * Create the repository.
+     * 
+     * This method creates a new Git repository in the specified directory.
+     * 
      * @param directory     the repository directory.
      * @param directoryName the repository directory name.
      * @throws RepositoryNotFoundException if the repository cannot be created.

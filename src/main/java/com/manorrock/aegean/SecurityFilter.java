@@ -43,7 +43,9 @@ import java.security.Principal;
 import java.util.Base64;
 
 /**
- * The "admin" filter.
+ * The Security Filter.
+ * 
+ * @author Manfred Riem (mriem@manorrock.com)
  */
 public class SecurityFilter implements Filter {
 
@@ -53,10 +55,35 @@ public class SecurityFilter implements Filter {
     @Inject
     private IdentityStore identityStore;
 
+    /**
+     * Initialize the filter.
+     *
+     * @param filterConfig the filter configuration
+     * @throws ServletException if an error occurs during initialization
+     */
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
     }
 
+    /**
+     * Perform filtering on the request and response.
+     *
+     * This method checks if anonymous access is disabled by reading the "anonymousDisabled" 
+     * context parameter. If anonymous access is disabled, it sends a 403 Forbidden response.
+     * 
+     * If the "Authorization" header is present and starts with "Basic ", it decodes the 
+     * Base64-encoded credentials, extracts the username and password, and validates them 
+     * using the IdentityStore. If the credentials are valid, it wraps the HttpServletRequest 
+     * to provide the authenticated user's principal, roles, and remote user.
+     *
+     * Finally, it passes the request and response to the next filter in the chain.
+     *
+     * @param request the servlet request
+     * @param response the servlet response
+     * @param chain the filter chain
+     * @throws IOException if an I/O error occurs
+     * @throws ServletException if a servlet error occurs
+     */
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
             throws IOException, ServletException {
@@ -104,6 +131,9 @@ public class SecurityFilter implements Filter {
         chain.doFilter(httpRequest, httpResponse);
     }
 
+    /**
+     * Destroy the filter.
+     */
     @Override
     public void destroy() {
     }

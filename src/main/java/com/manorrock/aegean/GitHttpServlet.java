@@ -41,7 +41,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.eclipse.jgit.http.server.GitFilter;
 
 /**
- * The Git HTTP servlet.
+ * The Git HttpServlet.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
@@ -81,6 +81,18 @@ public class GitHttpServlet extends HttpServlet {
         filter.destroy();
     }
 
+    /**
+     * Initialize the servlet.
+     *
+     * This method is called once when the servlet is first loaded into memory.
+     * It initializes the Git filter and sets up the repository resolver and
+     * upload size limit based on the servlet configuration.
+     *
+     * @param config the ServletConfig object that contains
+     *               configuration information for this servlet.
+     * @throws ServletException if an exception occurs that interrupts
+     *                          the servlet's normal operation.
+     */
     @Override
     public void init(final ServletConfig config) throws ServletException {
         
@@ -132,6 +144,23 @@ public class GitHttpServlet extends HttpServlet {
         });
     }
 
+    /**
+     * Process an HTTP request.
+     *
+     * This method is called for each HTTP request to the servlet. It uses the
+     * Git filter to handle the request. If the request is not an HTTP-based
+     * request that the Git filter can process, it sends a 404 error indicating
+     * that the requested resource is not found.
+     *
+     * @param request  the HttpServletRequest object that contains
+     *                 the request the client has made of the servlet.
+     * @param response the HttpServletResponse object that contains
+     *                 the response the servlet sends to the client.
+     * @throws ServletException if an exception occurs that interferes
+     *                          with the servlet's normal operation.
+     * @throws IOException      if an input or output error is detected
+     *                          when the servlet handles the request.
+     */
     @Override
     protected void service(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
