@@ -32,7 +32,7 @@ import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.ApplicationScoped;
 
 /**
- * The one and only application bean.
+ * The one and only application.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
@@ -50,7 +50,14 @@ public class GitApplication {
     private File repositoriesDirectory;
 
     /**
-     * Initialize.
+     * Initialize the application.
+     *
+     * This method is called once after the application is constructed. It sets
+     * up the repositories directory where Git repositories will be stored. The
+     * directory path is determined by the "ROOT_DIRECTORY" environment variable
+     * or system property. If neither is set, it defaults to a directory under
+     * the user's home directory. If the repositories directory does not exist,
+     * it is created.
      */
     @PostConstruct
     public void initialize() {
