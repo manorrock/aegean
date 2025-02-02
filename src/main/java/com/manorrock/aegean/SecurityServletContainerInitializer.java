@@ -14,12 +14,12 @@ import java.util.logging.Logger;
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class AdminServletContainerInitializer implements ServletContainerInitializer {
+public class SecurityServletContainerInitializer implements ServletContainerInitializer {
 
     /**
      * Stores the logger.
      */
-    private static final Logger LOGGER = Logger.getLogger(AdminServletContainerInitializer.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(SecurityServletContainerInitializer.class.getName());
 
     @Override
     public void onStartup(Set<Class<?>> c, ServletContext ctx) throws ServletException {
@@ -33,6 +33,10 @@ public class AdminServletContainerInitializer implements ServletContainerInitial
             }
         }
 
+        if (adminUsername != null) {
+            ctx.setInitParameter("adminUsername", adminUsername);
+        }
+
         String adminPassword = System.getenv("AEGEAN_ADMIN_PASSWORD");
         if (adminPassword != null) {
             LOGGER.info("Admin password obtained from environment variable AEGEAN_ADMIN_PASSWORD");
@@ -43,12 +47,22 @@ public class AdminServletContainerInitializer implements ServletContainerInitial
             }
         }
 
-        if (adminUsername != null) {
-            ctx.setInitParameter("adminUsername", adminUsername);
-        }
-
         if (adminPassword != null) {
             ctx.setInitParameter("adminPassword", adminPassword);
+        }
+
+        String anonymousDisabled = System.getenv("AEGEAN_ANONYMOUS_DISABLED");
+        if (anonymousDisabled != null) {
+            LOGGER.info("Anonymous access disabled obtained from environment variable AEGEAN_ANONYMOUS_DISABLED");
+        } else {
+            anonymousDisabled = System.getProperty("com.manorrock.aegean.anonymousDisabled");
+            if (anonymousDisabled != null) {
+                LOGGER.info("Anonymous access disabled obtained from system property com.manorrock.aegean.anonymousDisabled");
+            }
+        }
+
+        if (anonymousDisabled != null) {
+            ctx.setInitParameter("anonymousDisabled", anonymousDisabled);
         }
     }
 }

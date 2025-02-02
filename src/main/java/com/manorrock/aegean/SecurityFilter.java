@@ -45,7 +45,7 @@ import java.util.Base64;
 /**
  * The "admin" filter.
  */
-public class AdminFilter implements Filter {
+public class SecurityFilter implements Filter {
 
     /**
      * Stores the identity store.
@@ -62,6 +62,12 @@ public class AdminFilter implements Filter {
             throws IOException, ServletException {
         HttpServletRequest httpRequest = (HttpServletRequest) request;
         HttpServletResponse httpResponse = (HttpServletResponse) response;
+
+        String anonymousDisabled = httpRequest.getServletContext().getInitParameter("anonymousDisabled");
+        if ("true".equalsIgnoreCase(anonymousDisabled)) {
+            httpResponse.sendError(HttpServletResponse.SC_FORBIDDEN, "Anonymous access is disabled");
+            return;
+        }
 
         String authHeader = httpRequest.getHeader("Authorization");
 
